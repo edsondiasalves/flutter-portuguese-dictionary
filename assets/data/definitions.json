@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "definitions": [
+      {
+        "language": "pt-PT",
+        "term": "Agrafador",
+        "meaning": "Aparelho usado para agrafar ou prender com grampo metálico conjuntos de folhas soltas de papel ou cadernos",
+        "examples": [
+          "Agrafador é comumente encontrado em escritórios"
+        ]
+      },
+      {
+        "language": "pt-BR",
+        "term": "Grampeador",
+        "meaning": "Utensílio para prender com grampo conjuntos de folhas soltas de papel ou cadernos",
+        "examples": [
+          "Perdi meu grampeador dentro de casa",
+          "O grampeador está na sua mesa, senhor!"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "definitions": [
+      {
+        "language": "pt-PT",
+        "term": "Balneário",
+        "meaning": "Local devidamente equipado onde se pode tomar banho, trocar de roupa e guardar pertences pessoais temporariamente",
+        "examples": [
+          "Os balneários da fábrica eram modestos mas asseados",
+          "houve confrontos entre os jogadores à saída dos balneários"
+        ]
+      },
+      {
+        "language": "pt-BR",
+        "term": "Vestiário",
+        "meaning": "Local em uma casa,clube, escola, teatro etc., usado para trocar de roupa.",
+        "examples": [
+          "Os atletas trocavam de roupa no vestiário, preparando-se para a partida de futebol"
+        ]
+      }
+    ]
+  }
+]

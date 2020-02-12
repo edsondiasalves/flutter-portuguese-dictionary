@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portuguese_dictionary/widget/dictionarySearchWidget.dart';
-
-import 'model/searchResult.dart';
+import 'package:portuguese_dictionary/widget/dictionary_search_widget.dart';
 
 void main() => runApp(MyApp());
 
