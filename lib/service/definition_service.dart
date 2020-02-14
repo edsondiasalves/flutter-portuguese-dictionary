@@ -11,8 +11,9 @@ class DefinitionService {
 
     final entryMap = jsonDecode(definitions);
     final entries = entryMap.map((_) => Entry.fromJson(_)).toList();
+    List<Entry> entryList = List<Entry>.from(entries);
 
-    return entries;
+    return entryList;
   }
 
   Future<List<Entry>> getEntries(String language) async {
