@@ -17,7 +17,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             language: "language",
             term: "term",
             meaning: "meaning",
-            //examples: List<String>().add(""),
           ),
         ])
       ]);
