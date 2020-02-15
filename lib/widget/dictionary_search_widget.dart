@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:portuguese_dictionary/service/definition_service.dart';
 import 'package:portuguese_dictionary/widget/bloc/bloc.dart';
 
@@ -29,21 +30,12 @@ class SRL extends StatelessWidget {
       ),
       body: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
-          List<ListTile> tiles = List<ListTile>();
-
           print(state);
-
-          for (var result in state.entries) {
-            ListTile tile = ListTile(
-              title: Text(result.definitions[0].term),
-              subtitle: Text(result.definitions[0].meaning),
-            );
-
-            tiles.add(tile);
+          if (state is LoadingState) {
+            return _returnLoadingSpinner();
+          } else {
+            return _returnListView(state);
           }
-          return ListView(
-            children: tiles,
-          );
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -56,6 +48,34 @@ class SRL extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  ListView _returnListView(SearchState state) {
+    List<ListTile> tiles = List<ListTile>();
+
+    for (var result in state.entries) {
+      ListTile tile = ListTile(
+        title: Text(result.definitions[0].term),
+        subtitle: Text(result.definitions[0].meaning),
+      );
+
+      tiles.add(tile);
+    }
+    return ListView(
+      children: tiles,
+    );
+  }
+
+  Widget _returnLoadingSpinner() {
+    return SpinKitFadingCircle(
+      itemBuilder: (BuildContext context, int index) {
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: index.isEven ? Colors.red : Colors.green,
+          ),
+        );
+      },
     );
   }
 }

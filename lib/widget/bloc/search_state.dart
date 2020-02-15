@@ -8,6 +8,13 @@ abstract class SearchState extends Equatable {
   const SearchState({this.entries});
 }
 
+class LoadingState extends SearchState {
+  const LoadingState();
+
+  @override
+  List<Object> get props => null;
+}
+
 class StartedState extends SearchState {
   const StartedState({@required List<Entry> entries}) : super(entries: entries);
 

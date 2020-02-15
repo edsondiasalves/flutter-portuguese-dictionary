@@ -16,14 +16,11 @@ class DefinitionService {
     return entryList;
   }
 
-  Future<List<Entry>> getEntries(String language) async {
-    final definitions = await rootBundle.loadString(
-      'assets/data/definitions.json',
-    );
+  Future<List<Entry>> getEntriesByLanguage(String language) async {
+    List<Entry> allEntries = await this.getAllEntries();
 
-    final entryMap = jsonDecode(definitions);
-    final entries = entryMap.map((_) => Entry.fromJson(_)).toList();
+    List<Entry> entries = allEntries.where((_) => _.definitions.length == 2);
 
-    return entries;
+    return allEntries;
   }
 }
