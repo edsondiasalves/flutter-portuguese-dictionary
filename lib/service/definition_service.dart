@@ -16,11 +16,13 @@ class DefinitionService {
     return entryList;
   }
 
-  Future<List<Entry>> getEntriesByLanguage(String language) async {
+  Future<List<Entry>> getEntriesByTerms(String term) async {
     List<Entry> allEntries = await this.getAllEntries();
 
-    List<Entry> entries = allEntries.where((_) => _.definitions.length == 2);
+    List<Entry> entries = allEntries
+        .where((e) => e.definitions.any((d) => d.term == term))
+        .toList();
 
-    return allEntries;
+    return entries;
   }
 }

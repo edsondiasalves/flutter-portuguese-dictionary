@@ -20,7 +20,7 @@ void main() {
       final service = DefinitionService();
 
       //Act
-      final definitions = await service.getEntriesByLanguage("pt-BR");
+      final definitions = await service.getEntriesByTerms("Agrafador");
 
       //Assert
       expect(definitions.length, 1);
