@@ -10,6 +10,12 @@ class StartEvent extends SearchEvent {
 }
 
 class FilterEvent extends SearchEvent {
+  String term;
+
+  FilterEvent([String term]) {
+    this.term = term;
+  }
+
   @override
   List<Object> get props => null;
 }

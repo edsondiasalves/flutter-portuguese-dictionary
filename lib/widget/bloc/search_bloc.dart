@@ -17,7 +17,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final entries = await this.definitionService.getAllEntries();
       yield StartedState(entries: entries);
     } else if (event is FilterEvent) {
-      final entries = await this.definitionService.getAllEntries();
+      final entries =
+          await this.definitionService.getEntriesByTerms(event.term);
       yield FilteredState(entries: entries);
     }
   }

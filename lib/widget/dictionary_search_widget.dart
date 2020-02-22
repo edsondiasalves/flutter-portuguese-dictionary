@@ -42,7 +42,7 @@ class SRL extends StatelessWidget {
         child: Icon(Icons.receipt),
         onPressed: () {
           if (bloc.state is StartedState) {
-            bloc.add(FilterEvent());
+            bloc.add(FilterEvent("Agrafador"));
           } else {
             bloc.add(StartEvent());
           }
