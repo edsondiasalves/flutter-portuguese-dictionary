@@ -18,6 +18,6 @@ jobs:
     # Build :D 
     - run: flutter build aot
     # Analyze our Dart code
-    - run: flutter analyze
+    #- run: flutter analyze
     # Run our tests
     - run: flutter test      
