@@ -1,6 +1,8 @@
-# portuguese_dictionary
+[![codecov](https://codecov.io/gh/edsondiasalves/flutter-portuguese-dictionary/branch/master/graph/badge.svg)](https://codecov.io/gh/edsondiasalves/flutter-portuguese-dictionary)
 
-A new Flutter project.
+# portuguese dictionary
+
+A Brazilian portuguese X Portugal portuguese dictionary in Flutter
 
 ## Getting Started
 
