@@ -12,16 +12,20 @@ void main() {
     MockDefinitionService mock;
 
     final fullEntries = [Entry(), Entry()];
-    final bazingaEntry = Entry(definitions: [Definition(term: "bazinga")]);
+    final dummyEntry = Entry(definitions: [Definition(term: "bazinga")]);
 
     setUp(() {
       mock = MockDefinitionService();
 
       when(mock.getAllEntries()).thenAnswer((_) => Future.value(fullEntries));
       when(mock.getEntriesByTerms("bazinga"))
-          .thenAnswer((_) => Future.value([bazingaEntry]));
+          .thenAnswer((_) => Future.value([dummyEntry]));
 
       searchBloc = SearchBloc(definitionService: mock);
+    });
+
+    tearDown(() {
+      searchBloc.close();
     });
 
     test('Initial state is Loading', () {
@@ -38,7 +42,7 @@ void main() {
         act: (bloc) => bloc.add(FilterEvent("bazinga")),
         expect: [
           LoadingState(),
-          FilteredState(entries: [bazingaEntry])
+          FilteredState(entries: [dummyEntry])
         ]);
   });
 }
