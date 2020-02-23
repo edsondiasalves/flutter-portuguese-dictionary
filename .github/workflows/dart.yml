@@ -1,9 +1,10 @@
-name: Dart CI
+name: Flutter CI/CD
 
-on: [push]
+on: [push, pull_request]
 
 jobs: 
-  build-and-test: 
+  build: 
+    # Setting up the environment
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1 
@@ -13,16 +14,26 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'  
+    
     # Get flutter packages
     - run: flutter pub get
+    
     # Build :D 
     - run: flutter build aot
+    
     # Analyze our Dart code
     #- run: flutter analyze
+    
     # Run our tests
     - run: flutter test --coverage
     - uses: codecov/codecov-action@v1.0.5
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         file: ./coverage/lcov.info 
-      
+    
+    # Build the apk
+    - run: flutter build apk --debug --split-per-abi
+    - name: Create a Release APK
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/app/outputs/apk/debug/*.apk"      
