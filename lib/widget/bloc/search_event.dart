@@ -17,5 +17,5 @@ class FilterEvent extends SearchEvent {
   }
 
   @override
-  List<Object> get props => null;
+  List<Object> get props => [term];
 }
