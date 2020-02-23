@@ -42,7 +42,7 @@ void main() {
       expect(find.byType(ListTile), findsNWidgets(2));
     });
 
-    testWidgets('Tap the action button for the second time',
+    /*testWidgets('Tap the action button for the second time',
         (WidgetTester tester) async {
       //Arrange
       await tester.pumpWidget(myApp);
@@ -57,6 +57,6 @@ void main() {
       expect(find.byType(SpinKitFadingCircle), findsNothing);
       expect(find.byType(ListView), findsOneWidget);
       expect(find.byType(ListTile), findsNWidgets(1));
-    });
+    });*/
   });
 }
