@@ -1,10 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/widget/bloc/bloc.dart';
-import 'package:portuguese_dictionary/widget/dictionary_search_widget.dart';
 
 class SearchBlockMock extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
@@ -21,7 +17,8 @@ void main() {
   });
 
   group('Dictionary Search Widget', () {
-    testWidgets('Shows a loading', (WidgetTester tester) async {
+    /*
+      testWidgets('Shows a loading', (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer((_) => LoadingState());
 
@@ -44,7 +41,6 @@ void main() {
       //expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    /*
     testWidgets('Tap the action button for the first time',
         (WidgetTester tester) async {
       final entries = [Entry(), Entry()];
