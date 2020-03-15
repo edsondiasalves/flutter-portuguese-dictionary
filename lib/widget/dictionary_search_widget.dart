@@ -13,11 +13,10 @@ class DictionarySearchWidget extends StatelessWidget {
     return BlocBuilder(
       bloc: searchBloc,
       builder: (context, state) {
-        print(state);
         if (state is LoadingState) {
           return Center(
               child: CircularProgressIndicator(
-            key: Key('LoadingIndicator'),
+            key: Key('ProgressIndicator'),
           ));
         } else {
           List<ListTile> tiles = List<ListTile>();
@@ -31,6 +30,7 @@ class DictionarySearchWidget extends StatelessWidget {
             tiles.add(tile);
           }
           return ListView(
+            key: Key('ListViewDefinitions'),
             children: tiles,
           );
         }

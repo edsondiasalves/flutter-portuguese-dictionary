@@ -1,6 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:portuguese_dictionary/model/definition.dart';
+import 'package:portuguese_dictionary/model/entry.dart';
 import 'package:portuguese_dictionary/widget/bloc/bloc.dart';
+import 'package:portuguese_dictionary/widget/dictionary_search_widget.dart';
 
 class SearchBlockMock extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
@@ -17,8 +23,7 @@ void main() {
   });
 
   group('Dictionary Search Widget', () {
-    /*
-      testWidgets('Shows a loading', (WidgetTester tester) async {
+    testWidgets('Shows a progress indicator', (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer((_) => LoadingState());
 
@@ -37,13 +42,13 @@ void main() {
       await tester.pump();
 
       //Assert
-      expect(find.byType(Scaffold), findsNWidgets(2));
-      //expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('Tap the action button for the first time',
-        (WidgetTester tester) async {
-      final entries = [Entry(), Entry()];
+    testWidgets('Shows a list of terms', (WidgetTester tester) async {
+      final entries = [
+        Entry(definitions: [Definition(term: 'bazinga', meaning: 'bazinga')])
+      ];
       when(searchBloc.state).thenAnswer((_) => StartedState(entries: entries));
 
       await tester.pumpWidget(
@@ -63,26 +68,7 @@ void main() {
       //Assert
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.byType(ListView), findsOneWidget);
-      expect(find.byType(ListTile), findsNWidgets(2));
+      expect(find.byType(ListTile), findsOneWidget);
     });
-
-    testWidgets('Tap the action button for the second time',
-        (WidgetTester tester) async {
-      //Arrange
-      await tester.pumpWidget(myApp);
-
-      //Act
-      await tester.tap(find.byType(FloatingActionButton));
-      await tester.pump();
-      await tester.tap(find.byType(FloatingActionButton));
-      await tester.pump();
-
-      //Assert
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(find.byType(ListView), findsOneWidget);
-      expect(find.byType(ListTile), findsNWidgets(1));
-    });
-
-    */
   });
 }
