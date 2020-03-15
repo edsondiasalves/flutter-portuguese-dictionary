@@ -33,7 +33,7 @@ jobs:
     
     # Build the apk
     - run: flutter build apk --debug --split-per-abi
-    #- name: Create a Release APK
+    - name: Create a Release APK
       uses: ncipollo/release-action@v1
       with:
         artifacts: "build/app/outputs/apk/debug/*.apk"
