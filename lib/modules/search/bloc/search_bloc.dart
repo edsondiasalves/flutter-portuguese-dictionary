@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:portuguese_dictionary/service/definition_service.dart';
-import 'package:portuguese_dictionary/widget/bloc/bloc.dart';
+import 'package:portuguese_dictionary/services/definition_service.dart';
+
+import 'bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final DefinitionService definitionService;
@@ -14,12 +15,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is StartEvent) {
+      yield LoadingState();
       final entries = await this.definitionService.getAllEntries();
       yield StartedState(entries: entries);
-    } else if (event is FilterEvent) {
+    }
+    if (event is FilterResultEvent) {
+      yield LoadingState();
       final entries =
           await this.definitionService.getEntriesByTerms(event.term);
-      yield FilteredState(entries: entries);
+      yield FilteredResultState(entries: entries);
+    }
+    if (event is FilterSuggestionEvent) {
+      yield LoadingState();
+      final suggestions =
+          this.definitionService.getSuggestionByTerms(event.term);
+      yield FilteredSuggestionState(suggestions: suggestions);
     }
   }
 
