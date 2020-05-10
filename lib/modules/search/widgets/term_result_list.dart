@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:portuguese_dictionary/model/entry.dart';
+import 'package:portuguese_dictionary/model/model.dart';
 
 class TermResultList extends StatelessWidget {
   final List<Entry> entries;
 
-  const TermResultList({@required this.entries});
+  const TermResultList({Key key, @required this.entries}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

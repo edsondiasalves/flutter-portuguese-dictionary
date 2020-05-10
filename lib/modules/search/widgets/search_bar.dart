@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
-import 'package:portuguese_dictionary/modules/search/search_less_than_two_characters.dart';
 
-import 'search_suggestion_result.dart';
+import '../search.dart';
+import '../bloc/bloc.dart';
 
 class SearchBar extends StatelessWidget {
   final Function(String) onTapSuggestion;

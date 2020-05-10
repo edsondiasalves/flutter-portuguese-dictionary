@@ -6,17 +6,19 @@ import 'modules/home/bloc/bloc.dart';
 import 'modules/home/home.dart';
 import 'modules/search/bloc/bloc.dart';
 
-void main() => runApp(MultiBlocProvider(
-      providers: [
-        BlocProvider<HomeBloc>(
-          create: (BuildContext context) =>
-              HomeBloc()..add(HomeInitializeEvent()),
-        ),
-        BlocProvider<SearchBloc>(
-          create: (BuildContext context) => SearchBloc(
-            definitionService: DefinitionService(),
-          )..add(StartEvent()),
-        )
-      ],
-      child: Home(),
-    ));
+void main() => runApp(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeBloc>(
+            create: (BuildContext context) =>
+                HomeBloc()..add(HomeInitializeEvent()),
+          ),
+          BlocProvider<SearchBloc>(
+            create: (BuildContext context) =>
+                SearchBloc(definitionService: DefinitionService())
+                  ..add(StartEvent()),
+          ),
+        ],
+        child: Home(),
+      ),
+    );
