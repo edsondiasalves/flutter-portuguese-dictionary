@@ -25,4 +25,20 @@ class DefinitionService {
 
     return entries;
   }
+
+  List<String> getSuggestionByTerms(String term) {
+    if (term.length == 0) return [];
+
+    final allSuggestions = [
+      'Agrafador',
+      'Grampeador',
+      'Balneário',
+      'Vestiário'
+    ];
+
+    final entries = allSuggestions
+        .where((e) => e.toLowerCase().startsWith(term.toLowerCase()))
+        .toList();
+    return entries;
+  }
 }

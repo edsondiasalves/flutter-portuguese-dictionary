@@ -13,8 +13,8 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1.3.2
       with:
-        flutter-version: 1.12.13+hotfix.8 
-        channel: 'stable'  
+        flutter-version: 1.12.13+hotfix.8
+        channel: 'stable'    
     
     # Get flutter packages
     - run: flutter pub get
@@ -23,7 +23,7 @@ jobs:
     - run: flutter build aot
     
     # Analyze our Dart code
-    #- run: flutter analyze
+    - run: flutter analyze
     
     # Run our tests
     - run: flutter test --coverage
@@ -33,9 +33,9 @@ jobs:
         file: ./coverage/lcov.info 
     
     # Build the apk
-    - run: flutter build apk --debug --split-per-abi
-    - name: Create a Release APK
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
-        token: ${{ secrets.ACCESS_TOKEN }}
+    # - run: flutter build apk --debug --split-per-abi
+    # - name: Create a Release APK
+    #   uses: ncipollo/release-action@v1
+    #   with:
+    #     artifacts: "build/app/outputs/apk/debug/*.apk"
+    #     token: ${{ secrets.ACCESS_TOKEN }}
