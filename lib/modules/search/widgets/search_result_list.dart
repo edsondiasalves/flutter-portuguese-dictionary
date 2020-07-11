@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:portuguese_dictionary/model/entry.dart';
 
-import '../bloc/bloc.dart';
 import '../search.dart';
 
 class SearchResultList extends StatelessWidget {
+  final List<Entry> entries;
+  const SearchResultList({this.entries});
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        if (state is StartedState) {
-          return Expanded(
-            child: TermResultList(
-              entries: state.entries,
-            ),
-          );
-        }
-
-        if (state is FilteredResultState) {
-          return Expanded(
-            child: TermResultList(
-              entries: state.entries,
-            ),
-          );
-        }
-
-        return Container();
-      },
+    return Expanded(
+      child: TermResultList(
+        entries: entries,
+      ),
     );
+    ;
   }
 }

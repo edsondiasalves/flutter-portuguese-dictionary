@@ -21,9 +21,11 @@ class SearchSuggestionResult extends StatelessWidget {
       tiles.add(tile);
     }
 
-    return ListView(
-      key: Key('TermSuggestionsListView'),
-      children: tiles,
+    return Container(
+      child: ListView(
+        key: Key('TermSuggestionsListView'),
+        children: tiles,
+      ),
     );
   }
 }

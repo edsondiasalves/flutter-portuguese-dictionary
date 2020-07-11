@@ -78,7 +78,7 @@ class _CustomSearchDelegate extends SearchDelegate {
       );
     } else {
       BlocProvider.of<SearchBloc>(context).add(FilterResultEvent(term: query));
-      return Container();
+      return SizedBox();
     }
   }
 

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portuguese_dictionary/modules/home/bloc/bloc.dart';
+import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 
-class Home extends StatelessWidget {
+class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<HomeBloc>(
+        BlocProvider<ProfileBloc>(
           create: (BuildContext context) =>
-              HomeBloc()..add(HomeInitializeEvent()),
+              ProfileBloc()..add(ProfileInitializeEvent()),
         ),
       ],
       child: MaterialApp(
@@ -18,15 +18,15 @@ class Home extends StatelessWidget {
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: Center(child: Text('Home')),
+            title: Center(child: Text('Profile')),
           ),
           body: Container(
-            child: BlocBuilder<HomeBloc, HomeState>(
+            child: BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
-                if (state is HomeLoadingState) {
-                  return Center(child: Text('Initializing...'));
-                } else if (state is HomeLoadedState) {
-                  return Center(child: Text('Initialized'));
+                if (state is ProfileLoadingState) {
+                  return Center(child: Text('Initializing Profile...'));
+                } else if (state is ProfileLoadedState) {
+                  return Center(child: Text('Profile Initialized'));
                 }
                 return SizedBox();
               },
