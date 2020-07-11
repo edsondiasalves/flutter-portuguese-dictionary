@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:portuguese_dictionary/model/entry.dart';
+import 'package:portuguese_dictionary/model/model.dart';
 
 class DefinitionService {
   Future<List<Entry>> getAllEntries() async {
@@ -26,19 +26,24 @@ class DefinitionService {
     return entries;
   }
 
-  List<String> getSuggestionByTerms(String term) {
+  Future<List<String>> getSuggestionByTerms(String term) async {
     if (term.length == 0) return [];
 
-    final allSuggestions = [
-      'Agrafador',
-      'Grampeador',
-      'Balneário',
-      'Vestiário'
-    ];
+    final allEntries = await this.getAllEntries();
+
+    final List<String> allSuggestions = [];
+    allEntries.forEach((f) {
+      f.definitions.forEach((d) {
+        if (!allSuggestions.contains(d.term)) {
+          allSuggestions.add(d.term);
+        }
+      });
+    });
 
     final entries = allSuggestions
         .where((e) => e.toLowerCase().startsWith(term.toLowerCase()))
         .toList();
+
     return entries;
   }
 }

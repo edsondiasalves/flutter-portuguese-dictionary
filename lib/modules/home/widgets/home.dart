@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/bloc.dart';
-import '../../search/bloc/bloc.dart';
-import '../../search/search.dart';
+import 'package:portuguese_dictionary/modules/home/bloc/bloc.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -14,37 +11,24 @@ class Home extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Portuguese Dictionary'),
+          title: Center(child: Text('Home')),
         ),
         body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              SearchBar(
-                onTapSuggestion: (suggestionItem) {
-                  BlocProvider.of<SearchBloc>(context).add(
-                    FilterResultEvent(term: suggestionItem),
-                  );
-                },
-                onReturn: () {
-                  BlocProvider.of<SearchBloc>(context).add(
-                    StartEvent(),
-                  );
-                },
-              ),
-              BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  if (state is HomeLoadingState) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        key: Key('ProgressIndicator'),
-                      ),
-                    );
-                  }
-                  return SearchResultList();
-                },
-              ),
-            ],
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state is HomeLoadingState) {
+                return Center(
+                    child:
+                        Text('Initializing...', key: Key('Home_Initializing')));
+              } else if (state is HomeLoadedState) {
+                return Center(
+                    child: Text(
+                  'Initialized',
+                  key: Key('Home_Initialized'),
+                ));
+              }
+              return SizedBox();
+            },
           ),
         ),
       ),

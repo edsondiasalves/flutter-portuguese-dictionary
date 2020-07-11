@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portuguese_dictionary/services/definition_service.dart';
+import 'package:portuguese_dictionary/multitab.dart';
+import 'package:portuguese_dictionary/routes.dart';
+import 'modules/intro/intro.dart';
 
-import 'modules/home/bloc/bloc.dart';
-import 'modules/home/home.dart';
-import 'modules/search/bloc/bloc.dart';
+void main() => runApp(MyApp());
 
-void main() => runApp(
-      MultiBlocProvider(
-        providers: [
-          BlocProvider<HomeBloc>(
-            create: (BuildContext context) =>
-                HomeBloc()..add(HomeInitializeEvent()),
-          ),
-          BlocProvider<SearchBloc>(
-            create: (BuildContext context) =>
-                SearchBloc(definitionService: DefinitionService())
-                  ..add(StartEvent()),
-          ),
-        ],
-        child: Home(),
-      ),
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: Routes.intro,
+      routes: {
+        Routes.intro: (context) => Intro(),
+        Routes.multitab: (context) => Multitab(),
+      },
     );
+  }
+}

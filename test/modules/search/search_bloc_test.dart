@@ -12,7 +12,7 @@ void main() {
 
     final fullEntries = [Entry(), Entry()];
     final dummyEntry = Entry(definitions: [Definition(term: "bazinga")]);
-    final dummySuggestion = ['Hello', 'World'];
+    final List<String> dummySuggestion = ['Hello', 'World'];
 
     setUp(() {
       mock = MockDefinitionService();
@@ -24,7 +24,7 @@ void main() {
         (_) => Future.value([dummyEntry]),
       );
       when(mock.getSuggestionByTerms("Hello")).thenAnswer(
-        (_) => dummySuggestion,
+        (_) => Future.value(dummySuggestion),
       );
 
       searchBloc = SearchBloc(definitionService: mock);
