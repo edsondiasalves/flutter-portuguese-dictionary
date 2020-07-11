@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:portuguese_dictionary/multitab.dart';
 
 import '../../routes.dart';
 

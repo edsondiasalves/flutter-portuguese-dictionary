@@ -31,26 +31,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
-  Stream<SearchState> _mapStartEvent() async* {
-    yield LoadingState();
-    final entries = await this.definitionService.getAllEntries();
-    yield StartedState(entries: entries);
-  }
-
-  Stream<SearchState> _mapFilteredSuggestion(
-      FilterSuggestionEvent event) async* {
-    yield LoadingState();
-    final suggestions =
-        await this.definitionService.getSuggestionByTerms(event.term);
-    yield FilteredSuggestionState(suggestions: suggestions);
-  }
-
-  Stream<SearchState> _mapFilteredResultEvent(FilterResultEvent event) async* {
-    yield LoadingState();
-    final entries = await this.definitionService.getEntriesByTerms(event.term);
-    yield FilteredResultState(entries: entries);
-  }
-
   @override
   void onTransition(Transition<SearchEvent, SearchState> transition) {
     print(transition);

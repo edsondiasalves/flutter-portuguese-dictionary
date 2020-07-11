@@ -14,6 +14,5 @@ class SearchResultList extends StatelessWidget {
         entries: entries,
       ),
     );
-    ;
   }
 }
