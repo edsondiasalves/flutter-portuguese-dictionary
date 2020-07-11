@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/routes.dart';
 
 import 'bottom_bar.dart';
+import 'modules/home/bloc/bloc.dart';
 import 'modules/modules.dart';
 
 class Multitab extends StatefulWidget {
@@ -12,7 +14,19 @@ class Multitab extends StatefulWidget {
 class _MultitabState extends State<Multitab> {
   int currentTab = 0;
 
-  final navigatorPage = [Home(), Search(), Profile()];
+  final navigatorPage = [
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(
+          create: (BuildContext context) =>
+              HomeBloc()..add(HomeInitializeEvent()),
+        ),
+      ],
+      child: Home(),
+    ),
+    Search(),
+    Profile()
+  ];
 
   @override
   Widget build(BuildContext context) {

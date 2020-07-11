@@ -33,8 +33,11 @@ class DefinitionService {
 
     final List<String> allSuggestions = [];
     allEntries.forEach((f) {
-      allSuggestions.add(f.definitions[0].term);
-      allSuggestions.add(f.definitions[1].term);
+      f.definitions.forEach((d) {
+        if (!allSuggestions.contains(d.term)) {
+          allSuggestions.add(d.term);
+        }
+      });
     });
 
     final entries = allSuggestions

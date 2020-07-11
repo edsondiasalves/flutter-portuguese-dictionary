@@ -12,7 +12,7 @@ void main() {
       final definitions = await service.getAllEntries();
 
       //Assert
-      expect(definitions.length, 2);
+      expect(definitions.length, 292);
     });
 
     test('get definitions by language', () async {
@@ -23,7 +23,7 @@ void main() {
       final definitions = await service.getEntriesByTerms("Agrafador");
 
       //Assert
-      expect(definitions.length, 1);
+      expect(definitions.length, 2);
     });
   });
 }
