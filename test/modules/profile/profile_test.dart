@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
-import 'package:portuguese_dictionary/modules/profile/Profile.dart';
+import 'package:portuguese_dictionary/modules/profile/profile.dart';
 
 class ProfileBlockMock extends MockBloc<ProfileEvent, ProfileState>
     implements ProfileBloc {}
