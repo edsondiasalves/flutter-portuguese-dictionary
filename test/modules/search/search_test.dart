@@ -63,5 +63,64 @@ void main() {
       expect(find.byType(SearchBar), findsOneWidget);
       expect(find.byType(SearchResultList), findsOneWidget);
     });
+
+    testWidgets('Tapping on suggestion calls bloc event',
+        (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state).thenAnswer(
+        (_) => FilteredSuggestionState(suggestions: [
+          'Suggestion1',
+          'Suggestion2',
+        ]),
+      );
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: Search(),
+        ),
+      );
+
+      //Act
+      await tester.tap(find.byKey(Key('SearchBar_SearchIcon')));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField), 'Bazinga');
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(ListTile).first);
+      await tester.pumpAndSettle();
+
+      //Assert
+      verify(searchBloc.add(any)).called(4);
+    });
+
+    testWidgets('Tapping on back icon calls bloc event',
+        (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state).thenAnswer(
+        (_) => FilteredSuggestionState(suggestions: [
+          'Suggestion1',
+          'Suggestion2',
+        ]),
+      );
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: Search(),
+        ),
+      );
+
+      //Act
+      await tester.tap(find.byKey(Key('SearchBar_SearchIcon')));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(Key('SearchBar_Delegate_BackIcon')));
+      await tester.pumpAndSettle();
+
+      //Assert
+      verify(searchBloc.add(any)).called(3);
+    });
   });
 }
