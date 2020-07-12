@@ -187,5 +187,70 @@ void main() {
       //Assert
       expect(find.byKey(Key('SearchBar_SizedBox')), findsOneWidget);
     });
+
+    testWidgets('Tapping clear icon cleans the query search',
+        (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state)
+          .thenAnswer((_) => FilteredResultState(entries: []));
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: MaterialApp(home: Scaffold(body: SearchBar())),
+        ),
+      );
+
+      //Act
+      await tester.tap(find.byKey(Key('SearchBar_SearchIcon')));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField), 'Bazinga');
+      await tester.pumpAndSettle();
+
+      final textAfter = find.text('Bazinga');
+      expect(textAfter, findsOneWidget);
+
+      await tester.tap(find.byKey(Key('SearchBar_Delegate_ClearIcon')));
+      await tester.pumpAndSettle();
+
+      //Assert
+      final textBefore = find.text('Bazinga');
+      expect(textBefore, findsNothing);
+    });
+
+    testWidgets('Tapping back icon call back function',
+        (WidgetTester tester) async {
+      //Arrange
+      bool isReturnCalled = false;
+
+      when(searchBloc.state)
+          .thenAnswer((_) => FilteredResultState(entries: []));
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: MaterialApp(
+            home: Scaffold(
+              body: SearchBar(
+                onReturn: () {
+                  isReturnCalled = true;
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+
+      //Act
+      await tester.tap(find.byKey(Key('SearchBar_SearchIcon')));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(Key('SearchBar_Delegate_BackIcon')));
+      await tester.pumpAndSettle();
+
+      //Assert
+      expect(isReturnCalled, true);
+    });
   });
 }
