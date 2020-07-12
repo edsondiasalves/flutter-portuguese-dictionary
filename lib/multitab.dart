@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portuguese_dictionary/routes.dart';
 import 'package:portuguese_dictionary/services/definition_service.dart';
 
 import 'bottom_bar.dart';
@@ -64,9 +63,6 @@ class _MultitabState extends State<Multitab> {
           setState(() {
             currentTab = tabItem;
           });
-        },
-        onReturn: () {
-          Navigator.pushNamed(context, Routes.intro);
         },
       ),
     );
