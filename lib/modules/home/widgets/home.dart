@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/modules/home/bloc/bloc.dart';
 
 class Home extends StatelessWidget {
+  const Home([key]) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,14 +20,18 @@ class Home extends StatelessWidget {
             builder: (context, state) {
               if (state is HomeLoadingState) {
                 return Center(
-                    child:
-                        Text('Initializing...', key: Key('Home_Initializing')));
+                  child: Text(
+                    'Initializing Home...',
+                    key: Key('Home_Initializing'),
+                  ),
+                );
               } else if (state is HomeLoadedState) {
                 return Center(
-                    child: Text(
-                  'Initialized',
-                  key: Key('Home_Initialized'),
-                ));
+                  child: Text(
+                    'Home Initialized',
+                    key: Key('Home_Initialized'),
+                  ),
+                );
               }
               return SizedBox();
             },

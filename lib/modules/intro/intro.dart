@@ -24,6 +24,7 @@ class IntroState extends State<Intro> {
       body: Center(
         child: Text(
           'Intro',
+          key: Key('Intro_CenterText'),
           style: new TextStyle(
             fontSize: 30.0,
             color: Colors.blue,

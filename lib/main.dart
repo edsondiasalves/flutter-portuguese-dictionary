@@ -3,9 +3,9 @@ import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
 import 'modules/intro/intro.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Main());
 
-class MyApp extends StatelessWidget {
+class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

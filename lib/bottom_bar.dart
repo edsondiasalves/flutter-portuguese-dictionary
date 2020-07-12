@@ -21,9 +21,8 @@ Map<TabItem, MaterialColor> tabColors = {
 class BottomBar extends StatelessWidget {
   final int currentTab;
   final ValueChanged<int> onTabChange;
-  final VoidCallback onReturn;
 
-  const BottomBar({this.currentTab, this.onTabChange, this.onReturn});
+  const BottomBar({this.currentTab, this.onTabChange});
 
   @override
   Widget build(BuildContext context) {
