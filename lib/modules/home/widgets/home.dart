@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/modules/home/bloc/bloc.dart';
 
 class Home extends StatelessWidget {
+  const Home([key]) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

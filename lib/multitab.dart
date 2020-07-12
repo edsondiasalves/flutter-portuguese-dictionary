@@ -28,7 +28,7 @@ class _MultitabState extends State<Multitab> {
               homeBloc..add(HomeInitializeEvent()),
         ),
       ],
-      child: Home(),
+      child: Home(Key('multitab_home')),
     ),
     MultiBlocProvider(
       providers: [
@@ -36,7 +36,7 @@ class _MultitabState extends State<Multitab> {
           create: (BuildContext context) => searchBloc..add(StartEvent()),
         ),
       ],
-      child: Search(),
+      child: Search(Key('multitab_search')),
     ),
     MultiBlocProvider(
       providers: [
@@ -45,7 +45,7 @@ class _MultitabState extends State<Multitab> {
               profileBloc..add(ProfileInitializeEvent()),
         ),
       ],
-      child: Profile(),
+      child: Profile(Key('multitab_profile')),
     )
   ];
 
@@ -53,9 +53,9 @@ class _MultitabState extends State<Multitab> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: <Widget>[
-        _buildOffstageNavigator(0),
-        _buildOffstageNavigator(1),
-        _buildOffstageNavigator(2),
+        _buildOffstageNavigator(0, 'offstage0'),
+        _buildOffstageNavigator(1, 'offstage1'),
+        _buildOffstageNavigator(2, 'offstage2'),
       ]),
       bottomNavigationBar: BottomBar(
         currentTab: currentTab,
@@ -68,8 +68,9 @@ class _MultitabState extends State<Multitab> {
     );
   }
 
-  Widget _buildOffstageNavigator(int tabItem) {
+  Widget _buildOffstageNavigator(int tabItem, keyName) {
     return Offstage(
+      key: Key(keyName),
       offstage: currentTab != tabItem,
       child: navigatorPage[tabItem],
     );

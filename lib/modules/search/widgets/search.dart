@@ -5,6 +5,8 @@ import '../bloc/bloc.dart';
 import '../search.dart';
 
 class Search extends StatelessWidget {
+  const Search([key]) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

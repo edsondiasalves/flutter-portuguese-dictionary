@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 
 class Profile extends StatelessWidget {
+  const Profile([key]) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
