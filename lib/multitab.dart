@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/routes.dart';
+import 'package:portuguese_dictionary/services/definition_service.dart';
 
 import 'bottom_bar.dart';
 import 'modules/home/bloc/bloc.dart';
 import 'modules/modules.dart';
+import 'modules/profile/bloc/bloc.dart';
+import 'modules/search/bloc/bloc.dart';
 
 class Multitab extends StatefulWidget {
   @override
@@ -12,6 +15,10 @@ class Multitab extends StatefulWidget {
 }
 
 class _MultitabState extends State<Multitab> {
+  static HomeBloc homeBloc = HomeBloc();
+  static SearchBloc searchBloc =
+      SearchBloc(definitionService: DefinitionService());
+  static ProfileBloc profileBloc = ProfileBloc();
   int currentTab = 0;
 
   final navigatorPage = [
@@ -19,13 +26,28 @@ class _MultitabState extends State<Multitab> {
       providers: [
         BlocProvider<HomeBloc>(
           create: (BuildContext context) =>
-              HomeBloc()..add(HomeInitializeEvent()),
+              homeBloc..add(HomeInitializeEvent()),
         ),
       ],
       child: Home(),
     ),
-    Search(),
-    Profile()
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchBloc>(
+          create: (BuildContext context) => searchBloc..add(StartEvent()),
+        ),
+      ],
+      child: Search(),
+    ),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<ProfileBloc>(
+          create: (BuildContext context) =>
+              profileBloc..add(ProfileInitializeEvent()),
+        ),
+      ],
+      child: Profile(),
+    )
   ];
 
   @override
