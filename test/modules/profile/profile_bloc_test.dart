@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:portuguese_dictionary/modules/Profile/bloc/bloc.dart';
+import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 import 'package:test/test.dart';
 
 void main() {
