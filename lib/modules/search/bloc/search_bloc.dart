@@ -15,20 +15,32 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is StartEvent) {
-      yield LoadingState();
-      final entries = await this.definitionService.getAllEntries();
-      yield StartedState(entries: entries);
+      yield* _mapStartEvent();
     } else if (event is FilterSuggestionEvent) {
-      yield LoadingState();
-      final suggestions =
-          await this.definitionService.getSuggestionByTerms(event.term);
-      yield FilteredSuggestionState(suggestions: suggestions);
+      yield* _mapFilterSuggestionEvent(event);
     } else if (event is FilterResultEvent) {
-      yield LoadingState();
-      final entries =
-          await this.definitionService.getEntriesByTerms(event.term);
-      yield FilteredResultState(entries: entries);
+      yield* _mapFilterResultEvent(event);
     }
+  }
+
+  Stream<SearchState> _mapStartEvent() async* {
+    yield LoadingState();
+    final entries = await this.definitionService.getAllEntries();
+    yield StartedState(entries: entries);
+  }
+
+  Stream<SearchState> _mapFilterSuggestionEvent(
+      FilterSuggestionEvent event) async* {
+    yield LoadingState();
+    final suggestions =
+        await this.definitionService.getSuggestionByTerms(event.term);
+    yield FilteredSuggestionState(suggestions: suggestions);
+  }
+
+  Stream<SearchState> _mapFilterResultEvent(FilterResultEvent event) async* {
+    yield LoadingState();
+    final entries = await this.definitionService.getEntriesByTerms(event.term);
+    yield FilteredResultState(entries: entries);
   }
 
   @override
