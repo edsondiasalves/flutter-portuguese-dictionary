@@ -1,3 +1,4 @@
+export 'widgets/entry_details.dart';
 export 'widgets/search.dart';
 export 'widgets/search_bar.dart';
 export 'widgets/search_less_than_two_characters.dart';

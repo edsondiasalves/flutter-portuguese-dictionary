@@ -13,7 +13,7 @@ class TermResultList extends StatelessWidget {
     for (var result in entries) {
       ListTile tile = ListTile(
         title: Text(result.definitions[0].term),
-        subtitle: Text(result.definitions[0].meaning),
+        subtitle: Text(result.definitions[0].meanings[0]),
         isThreeLine: true,
       );
 

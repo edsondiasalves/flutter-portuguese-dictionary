@@ -22,7 +22,7 @@ void main() {
       definitions.add(Definition(
           language: 'language',
           term: 'term',
-          meaning: 'meaning',
+          meanings: ['meanings'],
           examples: ['example1', 'example2']));
 
       //Act
@@ -36,7 +36,7 @@ void main() {
     test('should deserialize correctly', () {
       //Arrange
       final serializedData =
-          "{\n \"id\":1,\n \"definitions\": [\n {\n \"language\": \"language1\",\n \"term\": \"term1\",\n \"meaning\": \"meaning1\",\n \"examples\": [\n \"example1\"\n ]\n },\n {\n \"language\": \"language2\",\n \"term\": \"term2\",\n \"meaning\": \"meaning2\",\n \"examples\": [\n \"example2\",\n \"example3\"\n ]\n }\n ]\n }";
+          '{"id":1,"definitions": [{"language": "language1","term": "term1","meanings": ["meaning1"],"examples": ["example1"]},{"language": "language2","term": "term2","meanings": ["meaning2"],"examples": ["example2","example3"]}]}';
       final Map<String, dynamic> decoded = jsonDecode(serializedData);
 
       //Act
@@ -47,12 +47,12 @@ void main() {
       expect(entry.definitions.length, 2);
       expect(entry.definitions[0].language, 'language1');
       expect(entry.definitions[0].term, 'term1');
-      expect(entry.definitions[0].meaning, 'meaning1');
+      expect(entry.definitions[0].meanings, ['meaning1']);
       expect(entry.definitions[0].examples.length, 1);
       expect(entry.definitions[0].examples[0], 'example1');
       expect(entry.definitions[1].language, 'language2');
       expect(entry.definitions[1].term, 'term2');
-      expect(entry.definitions[1].meaning, 'meaning2');
+      expect(entry.definitions[1].meanings, ['meaning2']);
       expect(entry.definitions[1].examples.length, 2);
       expect(entry.definitions[1].examples[0], 'example2');
       expect(entry.definitions[1].examples[1], 'example3');
