@@ -21,7 +21,8 @@ void main() {
   });
 
   group('Search Widget', () {
-    testWidgets('Shows the first result list', (WidgetTester tester) async {
+    testWidgets('Only show the text Search on entering for the first time',
+        (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
 
@@ -39,7 +40,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(SearchBar), findsOneWidget);
-      expect(find.byType(SearchResultList), findsOneWidget);
+      expect(find.text('Search'), findsNWidgets(2));
     });
 
     testWidgets('Shows a filtered result list', (WidgetTester tester) async {
