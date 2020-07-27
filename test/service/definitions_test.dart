@@ -36,5 +36,16 @@ void main() {
       //Assert
       expect(definitions.length, 1);
     });
+
+    test('get entry by suggestion', () async {
+      //Arrange
+      final service = DefinitionService();
+
+      //Act
+      final entry = await service.getEntryBySuggestion("Agrafador");
+
+      //Assert
+      expect(entry.definitions.length, 2);
+    });
   });
 }
