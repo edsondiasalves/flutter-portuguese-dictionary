@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:portuguese_dictionary/model/entry.dart';
 import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 import 'package:portuguese_dictionary/modules/search/search.dart';
 
@@ -122,6 +123,26 @@ void main() {
 
       //Assert
       verify(searchBloc.add(any)).called(3);
+    });
+
+    testWidgets('Shows the details of a entry', (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state).thenAnswer(
+        (_) => SelectedSuggestionState(entry: Entry()),
+      );
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: Search(),
+        ),
+      );
+
+      //Act
+      expect(find.byType(MaterialApp), findsOneWidget);
+      expect(find.byType(Scaffold), findsOneWidget);
+      expect(find.byType(SearchBar), findsOneWidget);
+      expect(find.byType(EntryDetails), findsOneWidget);
     });
   });
 }
