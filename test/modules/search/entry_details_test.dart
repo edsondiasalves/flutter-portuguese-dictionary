@@ -8,6 +8,26 @@ void main() {
   group('Entry Details', () {
     Entry simpleEntry;
 
+    testWidgets('Raise and error if not passing the entry',
+        (WidgetTester tester) async {
+      //Arrange
+      try {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: EntryDetails(),
+            ),
+          ),
+        );
+
+        //Act
+        await tester.pump();
+      } on AssertionError catch (error) {
+        //Assert
+        expect(error is AssertionError, true);
+      }
+    });
+
     testWidgets('Shows only the terms', (WidgetTester tester) async {
       //Arrange
       simpleEntry = Entry();
