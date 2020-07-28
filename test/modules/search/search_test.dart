@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:portuguese_dictionary/model/definition.dart';
+import 'package:portuguese_dictionary/model/entry.dart';
 import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 import 'package:portuguese_dictionary/modules/search/search.dart';
 
@@ -21,7 +23,8 @@ void main() {
   });
 
   group('Search Widget', () {
-    testWidgets('Shows the first result list', (WidgetTester tester) async {
+    testWidgets('Only show the text Search on entering for the first time',
+        (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
 
@@ -39,7 +42,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(SearchBar), findsOneWidget);
-      expect(find.byType(SearchResultList), findsOneWidget);
+      expect(find.text('Search'), findsNWidgets(2));
     });
 
     testWidgets('Shows a filtered result list', (WidgetTester tester) async {
@@ -121,6 +124,30 @@ void main() {
 
       //Assert
       verify(searchBloc.add(any)).called(3);
+    });
+
+    testWidgets('Shows the details of a entry', (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state).thenAnswer(
+        (_) => SelectedSuggestionState(
+            entry: Entry(definitions: [
+          Definition(language: "lang1"),
+          Definition(language: "lang2"),
+        ])),
+      );
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: Search(),
+        ),
+      );
+
+      //Act
+      expect(find.byType(MaterialApp), findsOneWidget);
+      expect(find.byType(Scaffold), findsOneWidget);
+      expect(find.byType(SearchBar), findsOneWidget);
+      expect(find.byType(EntryDetails), findsOneWidget);
     });
   });
 }

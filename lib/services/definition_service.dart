@@ -4,16 +4,20 @@ import 'package:flutter/services.dart';
 import 'package:portuguese_dictionary/model/model.dart';
 
 class DefinitionService {
+  List<Entry> _entryList = [];
+
   Future<List<Entry>> getAllEntries() async {
-    final definitions = await rootBundle.loadString(
-      'assets/data/definitions.json',
-    );
+    if (_entryList.length == 0) {
+      final definitions = await rootBundle.loadString(
+        'assets/data/definitions.json',
+      );
 
-    final entryMap = jsonDecode(definitions);
-    final entries = entryMap.map((_) => Entry.fromJson(_)).toList();
-    List<Entry> entryList = List<Entry>.from(entries);
+      final entryMap = jsonDecode(definitions);
+      final entries = entryMap.map((_) => Entry.fromJson(_)).toList();
+      _entryList = List<Entry>.from(entries);
+    }
 
-    return entryList;
+    return _entryList;
   }
 
   Future<List<Entry>> getEntriesByTerms(String term) async {
@@ -45,5 +49,16 @@ class DefinitionService {
         .toList();
 
     return entries;
+  }
+
+  Future<Entry> getEntryBySuggestion(String suggestion) async {
+    final allEntries = await this.getAllEntries();
+
+    Entry entry = allEntries
+        .where((e) => e.definitions.any((d) => d.term == suggestion))
+        .toList()
+        .first;
+
+    return entry;
   }
 }

@@ -5,29 +5,34 @@ import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 import 'package:portuguese_dictionary/services/definition_service.dart';
 import 'package:test/test.dart';
 
+class MockDefinitionService extends Mock implements DefinitionService {}
+
 void main() {
   group('SearchBloc', () {
     SearchBloc searchBloc;
-    MockDefinitionService mock;
+    MockDefinitionService definitionService;
 
     final fullEntries = [Entry(), Entry()];
-    final dummyEntry = Entry(definitions: [Definition(term: "bazinga")]);
+    final dummyEntry = Entry(definitions: [Definition(term: 'bazinga')]);
     final List<String> dummySuggestion = ['Hello', 'World'];
 
     setUp(() {
-      mock = MockDefinitionService();
+      definitionService = MockDefinitionService();
 
-      when(mock.getAllEntries()).thenAnswer(
+      when(definitionService.getAllEntries()).thenAnswer(
         (_) => Future.value(fullEntries),
       );
-      when(mock.getEntriesByTerms("bazinga")).thenAnswer(
+      when(definitionService.getEntriesByTerms('bazinga')).thenAnswer(
         (_) => Future.value([dummyEntry]),
       );
-      when(mock.getSuggestionByTerms("Hello")).thenAnswer(
+      when(definitionService.getSuggestionByTerms('Hello')).thenAnswer(
         (_) => Future.value(dummySuggestion),
       );
+      when(definitionService.getEntryBySuggestion('Agrafador')).thenAnswer(
+        (_) => Future.value(dummyEntry),
+      );
 
-      searchBloc = SearchBloc(definitionService: mock);
+      searchBloc = SearchBloc(definitionService: definitionService);
     });
 
     tearDown(() {
@@ -48,7 +53,7 @@ void main() {
     blocTest(
       'Filter the result list',
       build: () => searchBloc,
-      act: (bloc) => bloc.add(FilterResultEvent(term: "bazinga")),
+      act: (bloc) => bloc.add(FilterResultEvent(term: 'bazinga')),
       expect: [
         LoadingState(),
         FilteredResultState(entries: [dummyEntry])
@@ -64,7 +69,12 @@ void main() {
         FilteredSuggestionState(suggestions: dummySuggestion)
       ],
     );
+
+    blocTest(
+      'Filter the suggestion list',
+      build: () => searchBloc,
+      act: (bloc) => bloc.add(TapSuggestionEvent(suggestion: 'Agrafador')),
+      expect: [LoadingState(), SelectedSuggestionState(entry: dummyEntry)],
+    );
   });
 }
-
-class MockDefinitionService extends Mock implements DefinitionService {}

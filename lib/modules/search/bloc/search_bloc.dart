@@ -18,6 +18,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield* _mapStartEvent();
     } else if (event is FilterSuggestionEvent) {
       yield* _mapFilterSuggestionEvent(event);
+    } else if (event is TapSuggestionEvent) {
+      yield* _mapTapSuggestionEvent(event);
     } else if (event is FilterResultEvent) {
       yield* _mapFilterResultEvent(event);
     }
@@ -35,6 +37,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final suggestions =
         await this.definitionService.getSuggestionByTerms(event.term);
     yield FilteredSuggestionState(suggestions: suggestions);
+  }
+
+  Stream<SearchState> _mapTapSuggestionEvent(TapSuggestionEvent event) async* {
+    yield LoadingState();
+    final entry =
+        await this.definitionService.getEntryBySuggestion(event.suggestion);
+    yield SelectedSuggestionState(entry: entry);
   }
 
   Stream<SearchState> _mapFilterResultEvent(FilterResultEvent event) async* {

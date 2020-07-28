@@ -12,7 +12,7 @@ void main() {
       //Assert
       expect(definition.language, null);
       expect(definition.term, null);
-      expect(definition.meaning, null);
+      expect(definition.meanings, null);
       expect(definition.examples, null);
     });
 
@@ -20,24 +20,27 @@ void main() {
       //Arrange
       final language = 'language';
       final term = 'term';
-      final meaning = 'meaning';
+      final meanings = ['meaning'];
       final examples = ['example1'];
 
       //Atc
       final definition = Definition(
-          language: language, term: term, meaning: meaning, examples: examples);
+          language: language,
+          term: term,
+          meanings: meanings,
+          examples: examples);
 
       //Assert
       expect(definition.language, language);
       expect(definition.term, term);
-      expect(definition.meaning, meaning);
+      expect(definition.meanings, meanings);
       expect(definition.examples, examples);
     });
 
     test('should deserialize correctly', () {
       //Arrange
       final serializedData =
-          "{\n \"language\": \"language1\",\n \"term\": \"term1\",\n \"meaning\": \"meaning1\",\n \"examples\": [\n \"example1\"\n ]\n }";
+          "{\n \"language\": \"language1\",\n \"term\": \"term1\",\n \"meanings\": [\n \"meaning1\"\n ],\n \"examples\": [\n \"example1\"\n ]\n }";
 
       final Map<String, dynamic> decoded = jsonDecode(serializedData);
 
@@ -47,7 +50,7 @@ void main() {
       //Assert
       expect(definition.language, 'language1');
       expect(definition.term, 'term1');
-      expect(definition.meaning, 'meaning1');
+      expect(definition.meanings, ['meaning1']);
       expect(definition.examples, ['example1']);
     });
   });

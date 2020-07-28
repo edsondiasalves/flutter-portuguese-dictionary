@@ -34,3 +34,11 @@ class FilteredSuggestionState extends SearchState {
   @override
   List<Object> get props => [suggestions];
 }
+
+class SelectedSuggestionState extends SearchState {
+  final Entry entry;
+  SelectedSuggestionState({@required this.entry});
+
+  @override
+  List<Object> get props => [entry];
+}
