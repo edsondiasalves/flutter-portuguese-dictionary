@@ -7,8 +7,7 @@ class EntryDetails extends StatelessWidget {
   const EntryDetails({
     Key key,
     @required this.entry,
-  })  : assert(entry != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
