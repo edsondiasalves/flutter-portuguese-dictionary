@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:portuguese_dictionary/model/model.dart';
 import 'package:portuguese_dictionary/modules/home/bloc/bloc.dart';
 
 class Home extends StatelessWidget {
@@ -20,16 +21,14 @@ class Home extends StatelessWidget {
             builder: (context, state) {
               if (state is HomeLoadingState) {
                 return Center(
-                  child: Text(
-                    'Initializing Home...',
-                    key: Key('Home_Initializing'),
-                  ),
+                  child: CircularProgressIndicator(),
                 );
               } else if (state is HomeLoadedState) {
-                return Center(
-                  child: Text(
-                    'Home Initialized',
-                    key: Key('Home_Initialized'),
+                return Container(
+                  child: ListView(
+                    children: state.articles
+                        .map((article) => ArticlePaper(article: article))
+                        .toList(),
                   ),
                 );
               }
@@ -38,6 +37,50 @@ class Home extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ArticlePaper extends StatelessWidget {
+  final Article article;
+
+  const ArticlePaper({this.article});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          _buildTitle(),
+          _buildBody(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: <Widget>[
+          Image(
+            image: AssetImage(article.imageUrl),
+            width: 50,
+            height: 50,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(article.title),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(article.content),
     );
   }
 }

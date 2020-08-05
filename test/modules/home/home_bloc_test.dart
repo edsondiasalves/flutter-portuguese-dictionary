@@ -22,7 +22,10 @@ void main() {
       'Initialize Home',
       build: () => homeBloc,
       act: (bloc) => bloc.add(HomeInitializeEvent()),
-      expect: [HomeInitial(), HomeLoadingState(), HomeLoadedState()],
+      expect: [
+        HomeInitial(),
+        HomeLoadingState(),
+      ],
     );
   });
 }

@@ -20,16 +20,46 @@ class IntroState extends State<Intro> {
 
   @override
   Widget build(BuildContext context) {
+    final kBaseTextStyle = TextStyle(fontSize: 24);
     return Scaffold(
-      body: Center(
-        child: Text(
-          'Intro',
-          key: Key('Intro_CenterText'),
-          style: new TextStyle(
-            fontSize: 30.0,
-            color: Colors.blue,
-            fontWeight: FontWeight.bold,
-          ),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+              Colors.yellow,
+              Colors.green,
+              Colors.red,
+            ])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Center(
+              child: Text(
+                'Português do Brasil',
+                style: kBaseTextStyle,
+              ),
+            ),
+            Image(
+              image: AssetImage('assets/images/br_flag.png'),
+            ),
+            Center(
+              child: Text(
+                'Vs',
+                style: kBaseTextStyle,
+              ),
+            ),
+            Image(
+              image: AssetImage('assets/images/pt_flag.png'),
+            ),
+            Center(
+              child: Text(
+                'Português de Portugal',
+                style: kBaseTextStyle,
+              ),
+            ),
+          ],
         ),
       ),
     );

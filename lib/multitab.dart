@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/services/definition_service.dart';
+import 'package:portuguese_dictionary/services/home_service.dart';
 
 import 'bottom_bar.dart';
 import 'modules/home/bloc/bloc.dart';
@@ -14,7 +15,7 @@ class Multitab extends StatefulWidget {
 }
 
 class _MultitabState extends State<Multitab> {
-  static HomeBloc homeBloc = HomeBloc();
+  static HomeBloc homeBloc = HomeBloc(homeService: HomeService());
   static SearchBloc searchBloc =
       SearchBloc(definitionService: DefinitionService());
   static ProfileBloc profileBloc = ProfileBloc();
