@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class Article extends Equatable {
-  String title;
-  String imageUrl;
-  String content;
+  final String title;
+  final String imageUrl;
+  final String content;
 
   Article({this.title, this.imageUrl, this.content});
 
