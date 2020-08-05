@@ -67,6 +67,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(ListView), findsOneWidget);
+      expect((homeBloc.state as HomeLoadedState).articles != null, true);
     });
   });
 }
