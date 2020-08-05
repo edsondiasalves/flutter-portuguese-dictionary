@@ -1,3 +1,4 @@
+![Flutter CI/CD](https://github.com/edsondiasalves/flutter-portuguese-dictionary/workflows/Flutter%20CI/CD/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/edsondiasalves/flutter-portuguese-dictionary/branch/master/graph/badge.svg)](https://codecov.io/gh/edsondiasalves/flutter-portuguese-dictionary)
 
 # portuguese dictionary
