@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:portuguese_dictionary/model/article.dart';
 
 abstract class HomeState extends Equatable {
   const HomeState();
@@ -15,6 +16,10 @@ class HomeLoadingState extends HomeState {
 }
 
 class HomeLoadedState extends HomeState {
+  final List<Article> articles;
+
+  const HomeLoadedState({this.articles});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [articles];
 }

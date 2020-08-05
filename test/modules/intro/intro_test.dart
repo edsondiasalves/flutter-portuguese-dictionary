@@ -10,13 +10,16 @@ void main() {
   tearDown(() {});
 
   group('Intro Widget', () {
-    testWidgets('Shows the intro text', (WidgetTester tester) async {
+    testWidgets('Shows the intro information', (WidgetTester tester) async {
       //Arrange
       await tester.runAsync(() async {
         await tester.pumpWidget(MaterialApp(home: Intro()));
 
         expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.byKey(Key('Intro_CenterText')), findsOneWidget);
+        expect(find.byType(Image), findsNWidgets(2));
+        expect(find.text('Português do Brasil'), findsOneWidget);
+        expect(find.text('Vs'), findsOneWidget);
+        expect(find.text('Português de Portugal'), findsOneWidget);
       });
     });
 
