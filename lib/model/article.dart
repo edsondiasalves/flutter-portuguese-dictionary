@@ -1,4 +1,6 @@
-class Article {
+import 'package:equatable/equatable.dart';
+
+class Article extends Equatable {
   String title;
   String imageUrl;
   String content;
@@ -9,4 +11,7 @@ class Article {
       : title = json['title'],
         imageUrl = json['imageUrl'],
         content = json['content'];
+
+  @override
+  List<Object> get props => [title, imageUrl, content];
 }
