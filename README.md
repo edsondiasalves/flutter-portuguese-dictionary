@@ -17,5 +17,5 @@ Home page:
 
 Search page:
 <p align="left">
-<img src="https://user-images.githubusercontent.com/13770341/89470623-224ef700-d774-11ea-9881-6d4c1c7ef38d.png" width="300" alt="Search">
+<img src="https://user-images.githubusercontent.com/13770341/89735078-d217b380-da57-11ea-806e-749aa279cf0d.png" width="300" alt="Search">
 </p>
