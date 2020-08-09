@@ -28,14 +28,6 @@ class DefinitionService {
             .any((d) => d.term.toLowerCase().contains(term.toLowerCase())))
         .toList();
 
-    /*
-    allEntries.forEach((entry) {
-      entry.definitions.removeWhere(
-        (definition) => !definition.term.toLowerCase().contains(term),
-      );
-    });
-    * */
-
     return entries;
   }
 
