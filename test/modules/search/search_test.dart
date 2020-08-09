@@ -42,7 +42,7 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(SearchBar), findsOneWidget);
-      expect(find.text('Search'), findsNWidgets(2));
+      expect(find.byType(SearchResultList), findsOneWidget);
     });
 
     testWidgets('Shows a filtered result list', (WidgetTester tester) async {

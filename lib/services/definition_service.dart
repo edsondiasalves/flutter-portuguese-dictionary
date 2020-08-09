@@ -24,8 +24,17 @@ class DefinitionService {
     List<Entry> allEntries = await this.getAllEntries();
 
     List<Entry> entries = allEntries
-        .where((e) => e.definitions.any((d) => d.term == term))
+        .where((e) => e.definitions
+            .any((d) => d.term.toLowerCase().contains(term.toLowerCase())))
         .toList();
+
+    /*
+    allEntries.forEach((entry) {
+      entry.definitions.removeWhere(
+        (definition) => !definition.term.toLowerCase().contains(term),
+      );
+    });
+    * */
 
     return entries;
   }
@@ -45,7 +54,7 @@ class DefinitionService {
     });
 
     final entries = allSuggestions
-        .where((e) => e.toLowerCase().startsWith(term.toLowerCase()))
+        .where((e) => e.toLowerCase().contains(term.toLowerCase()))
         .toList();
 
     return entries;

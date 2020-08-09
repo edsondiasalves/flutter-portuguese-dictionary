@@ -16,8 +16,8 @@ class FilterSuggestionEvent extends SearchEvent {
   const FilterSuggestionEvent({this.term});
 }
 
-class TapSuggestionEvent extends SearchEvent {
+class TapTermEvent extends SearchEvent {
   final String suggestion;
 
-  const TapSuggestionEvent({this.suggestion});
+  const TapTermEvent({this.suggestion});
 }

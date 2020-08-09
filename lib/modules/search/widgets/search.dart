@@ -24,7 +24,7 @@ class Search extends StatelessWidget {
               SearchBar(
                 onTapSuggestion: (suggestionItem) {
                   BlocProvider.of<SearchBloc>(context)
-                      .add(TapSuggestionEvent(suggestion: suggestionItem));
+                      .add(TapTermEvent(suggestion: suggestionItem));
                 },
                 onReturn: () {
                   BlocProvider.of<SearchBloc>(context).add(StartEvent());
@@ -33,11 +33,11 @@ class Search extends StatelessWidget {
               BlocBuilder<SearchBloc, SearchState>(
                 builder: (context, state) {
                   if (state is StartedState) {
-                    return Center(child: Text('Search'));
-                  } else if (state is SelectedSuggestionState) {
-                    return EntryDetails(entry: state.entry);
+                    return SearchResultList(entries: state.entries);
                   } else if (state is FilteredResultState) {
                     return SearchResultList(entries: state.entries);
+                  } else if (state is SelectedSuggestionState) {
+                    return EntryDetails(entry: state.entry);
                   }
                   return SizedBox();
                 },
