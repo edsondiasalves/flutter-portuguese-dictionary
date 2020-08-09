@@ -73,7 +73,7 @@ void main() {
     blocTest(
       'Filter the suggestion list',
       build: () => searchBloc,
-      act: (bloc) => bloc.add(TapSuggestionEvent(suggestion: 'Agrafador')),
+      act: (bloc) => bloc.add(TapTermEvent(suggestion: 'Agrafador')),
       expect: [LoadingState(), SelectedSuggestionState(entry: dummyEntry)],
     );
   });

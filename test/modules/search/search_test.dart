@@ -23,7 +23,7 @@ void main() {
   });
 
   group('Search Widget', () {
-    testWidgets('Only show the text Search on entering for the first time',
+    testWidgets('Shows a list of term when entering for the first time',
         (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
@@ -42,7 +42,31 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(SearchBar), findsOneWidget);
-      expect(find.text('Search'), findsNWidgets(2));
+      expect(find.byType(SearchResultList), findsOneWidget);
+    });
+
+    testWidgets('Tapping one of the result items in the list',
+        (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state).thenAnswer((_) => StartedState(entries: [
+            Entry(definitions: [Definition(term: 'Bazinga term', meanings: [])])
+          ]));
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: Search(),
+        ),
+      );
+
+      //Act
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Bazinga term'));
+      await tester.pumpAndSettle();
+
+      //Assert
+      verify(searchBloc.add(any)).called(1);
     });
 
     testWidgets('Shows a filtered result list', (WidgetTester tester) async {
@@ -126,7 +150,8 @@ void main() {
       verify(searchBloc.add(any)).called(3);
     });
 
-    testWidgets('Shows the details of a entry', (WidgetTester tester) async {
+    testWidgets('Shows the details of a entry when clicking in one suggestion ',
+        (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer(
         (_) => SelectedSuggestionState(

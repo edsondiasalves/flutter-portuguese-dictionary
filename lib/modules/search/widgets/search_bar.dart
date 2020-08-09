@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../search.dart';
 import '../bloc/bloc.dart';
+import '../search.dart';
 
 class SearchBar extends StatelessWidget {
   final Function(String) onTapSuggestion;
@@ -78,6 +78,9 @@ class _CustomSearchDelegate extends SearchDelegate {
       );
     } else {
       BlocProvider.of<SearchBloc>(context).add(FilterResultEvent(term: query));
+      Future(() {
+        Navigator.of(context).pop();
+      });
       return SizedBox(key: Key('SearchBar_SizedBox'));
     }
   }

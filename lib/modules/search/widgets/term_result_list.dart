@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/model/model.dart';
+import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 
 class TermResultList extends StatelessWidget {
   final List<Entry> entries;
@@ -8,21 +10,37 @@ class TermResultList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tiles = List<ListTile>();
+    final cards = List<Card>();
 
     for (var result in entries) {
-      ListTile tile = ListTile(
-        title: Text(result.definitions[0].term),
-        subtitle: Text(result.definitions[0].meanings[0]),
-        isThreeLine: true,
-      );
+      final definitions = result.definitions;
+      String meaning = 'No provided';
 
-      tiles.add(tile);
+      for (var definition in definitions) {
+        if (definition.meanings.length > 0) {
+          meaning = definition.meanings[0];
+        }
+
+        final card = Card(
+          child: InkWell(
+            child: ListTile(
+              title: Text(definition.term),
+              subtitle: Text(meaning),
+            ),
+            onTap: () {
+              BlocProvider.of<SearchBloc>(context)
+                  .add(TapTermEvent(suggestion: definition.term));
+            },
+          ),
+        );
+
+        cards.add(card);
+      }
     }
 
     return ListView(
       key: Key('TermResultListView'),
-      children: tiles,
+      children: cards,
     );
   }
 }

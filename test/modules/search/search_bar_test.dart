@@ -134,7 +134,7 @@ void main() {
       expect(suggestionText, "Suggestion1");
     });
 
-    testWidgets('Search less than 3 characteres shows a disclaimer',
+    testWidgets('Search less than 3 characters shows a disclaimer',
         (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
@@ -161,7 +161,7 @@ void main() {
           findsOneWidget);
     });
 
-    testWidgets('Search more than 3 characteres shows a disclaimer',
+    testWidgets('Search more than 3 characters shows a disclaimer',
         (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state)
@@ -182,10 +182,10 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(Key('SearchBar_Delegate_SearchIcon')));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       //Assert
-      expect(find.byKey(Key('SearchBar_SizedBox')), findsOneWidget);
+      expect(find.byKey(Key('SearchBar_SizedBox')), findsNothing);
     });
 
     testWidgets('Tapping clear icon cleans the query search',
