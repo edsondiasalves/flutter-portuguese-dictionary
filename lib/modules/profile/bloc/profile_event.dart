@@ -3,3 +3,7 @@ abstract class ProfileEvent {
 }
 
 class ProfileInitializeEvent extends ProfileEvent {}
+
+class ProfileLoginEvent extends ProfileEvent {}
+
+class ProfileRegisterEvent extends ProfileEvent {}

@@ -13,9 +13,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileEvent event,
   ) async* {
     if (event is ProfileInitializeEvent) {
-      yield ProfileLoadingState();
-      await new Future.delayed(const Duration(seconds: 2));
-      yield ProfileLoadedState();
+      yield ProfileInitial();
+    } else if (event is ProfileLoginEvent) {
+      yield ProfileLoginState();
+    } else if (event is ProfileRegisterEvent) {
+      yield ProfileRegisterState();
     }
   }
 }

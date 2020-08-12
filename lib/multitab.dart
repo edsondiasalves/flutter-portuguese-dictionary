@@ -53,6 +53,7 @@ class _MultitabState extends State<Multitab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Stack(children: <Widget>[
         _buildOffstageNavigator(0, 'offstage0'),
         _buildOffstageNavigator(1, 'offstage1'),

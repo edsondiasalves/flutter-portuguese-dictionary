@@ -14,6 +14,7 @@ class Search extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           title: Center(child: Text('Search')),
         ),
