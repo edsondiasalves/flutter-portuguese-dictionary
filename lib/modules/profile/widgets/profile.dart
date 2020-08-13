@@ -21,14 +21,12 @@ class Profile extends StatelessWidget {
         body: Container(
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
-              if (state is ProfileInitial) {
-                return ProfileWelcome();
-              } else if (state is ProfileLoginState) {
+              if (state is ProfileLoginState) {
                 return ProfileLogin();
               } else if (state is ProfileRegisterState) {
                 return ProfileRegister();
               }
-              return SizedBox();
+              return ProfileWelcome();
             },
           ),
         ),
