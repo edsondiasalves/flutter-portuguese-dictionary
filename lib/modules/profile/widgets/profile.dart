@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 
+import '../profile.dart';
+
 class Profile extends StatelessWidget {
   const Profile([key]) : super(key: key);
 
@@ -12,28 +14,19 @@ class Profile extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Center(child: Text('Profile')),
         ),
         body: Container(
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
-              if (state is ProfileLoadingState) {
-                return Center(
-                  child: Text(
-                    'Initializing Profile...',
-                    key: Key('Profile_Initializing'),
-                  ),
-                );
-              } else if (state is ProfileLoadedState) {
-                return Center(
-                  child: Text(
-                    'Profile Initialized',
-                    key: Key('Profile_Initialized'),
-                  ),
-                );
+              if (state is ProfileLoginState) {
+                return ProfileLogin();
+              } else if (state is ProfileRegisterState) {
+                return ProfileRegister();
               }
-              return SizedBox();
+              return ProfileWelcome();
             },
           ),
         ),

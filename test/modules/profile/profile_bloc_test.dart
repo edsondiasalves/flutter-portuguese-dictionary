@@ -22,7 +22,27 @@ void main() {
       'Initialize Profile',
       build: () => profileBloc,
       act: (bloc) => bloc.add(ProfileInitializeEvent()),
-      expect: [ProfileInitial(), ProfileLoadingState(), ProfileLoadedState()],
+      expect: [
+        ProfileInitial(),
+      ],
+    );
+
+    blocTest(
+      'On login event',
+      build: () => profileBloc,
+      act: (bloc) => bloc.add(ProfileLoginEvent()),
+      expect: [
+        ProfileInitial(), ProfileLoginState(),
+      ],
+    );
+
+    blocTest(
+      'On register event',
+      build: () => profileBloc,
+      act: (bloc) => bloc.add(ProfileRegisterEvent()),
+      expect: [
+        ProfileInitial(), ProfileRegisterState(),
+      ],
     );
   });
 }

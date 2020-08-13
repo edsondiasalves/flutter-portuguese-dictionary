@@ -22,6 +22,7 @@ class IntroState extends State<Intro> {
   Widget build(BuildContext context) {
     final kBaseTextStyle = TextStyle(fontSize: 24);
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
