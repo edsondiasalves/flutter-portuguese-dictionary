@@ -25,7 +25,9 @@ class Profile extends StatelessWidget {
                 return ProfileWelcome();
               } else if (state is ProfileLoginState) {
                 return ProfileLogin();
-              } else if (state is ProfileRegisterState) {}
+              } else if (state is ProfileRegisterState) {
+                return ProfileRegister();
+              }
               return SizedBox();
             },
           ),

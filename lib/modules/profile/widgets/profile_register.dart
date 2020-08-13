@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 
-class ProfileLogin extends StatelessWidget {
-  const ProfileLogin({
+class ProfileRegister extends StatelessWidget {
+  const ProfileRegister({
     Key key,
   }) : super(key: key);
 
@@ -35,6 +35,23 @@ class ProfileLogin extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 20,
+              ),
+              Text('User name'),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Text('Login'),
               SizedBox(
                 height: 10,
@@ -84,16 +101,16 @@ class ProfileLogin extends StatelessWidget {
                     )
                   ],
                 ),
-                child: Text('Login'),
+                child: Text('Register'),
               ),
               SizedBox(
-                height: 80,
+                height: 50,
               ),
             ],
           ),
           InkWell(
             onTap: () {
-              BlocProvider.of<ProfileBloc>(context).add(ProfileRegisterEvent());
+              BlocProvider.of<ProfileBloc>(context).add(ProfileLoginEvent());
             },
             child: Container(
               alignment: Alignment.center,
@@ -101,18 +118,19 @@ class ProfileLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Don\'t have an account ?',
+                    'Already have an account ?',
                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   Text(
-                    'Register',
+                    'Login',
                     style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600),
+                      color: Colors.blue,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),

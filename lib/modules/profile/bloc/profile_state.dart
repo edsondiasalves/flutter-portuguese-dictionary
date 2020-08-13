@@ -9,11 +9,6 @@ class ProfileInitial extends ProfileState {
   List<Object> get props => [];
 }
 
-class ProfileLoadingState extends ProfileState {
-  @override
-  List<Object> get props => [];
-}
-
 class ProfileLoginState extends ProfileState {
   @override
   List<Object> get props => [];
