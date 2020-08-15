@@ -20,11 +20,12 @@ class StartedState extends SearchState {
 }
 
 class FilteredResultState extends SearchState {
+  final String term;
   final List<Entry> entries;
-  FilteredResultState({@required this.entries});
+  FilteredResultState({@required this.entries, this.term});
 
   @override
-  List<Object> get props => [entries];
+  List<Object> get props => [entries, term];
 }
 
 class FilteredSuggestionState extends SearchState {
@@ -36,9 +37,10 @@ class FilteredSuggestionState extends SearchState {
 }
 
 class SelectedSuggestionState extends SearchState {
+  final String suggestion;
   final Entry entry;
-  SelectedSuggestionState({@required this.entry});
+  SelectedSuggestionState({@required this.entry, this.suggestion});
 
   @override
-  List<Object> get props => [entry];
+  List<Object> get props => [entry, suggestion];
 }

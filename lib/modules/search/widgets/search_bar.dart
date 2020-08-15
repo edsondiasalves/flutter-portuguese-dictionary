@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,27 +13,66 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      key: Key('SearchBar_SearchIcon'),
-      icon: Icon(Icons.search),
-      onPressed: () {
-        showSearch(
-          context: context,
-          delegate: _CustomSearchDelegate(
-            onTapSuggestion: onTapSuggestion,
-            onReturn: onReturn,
+    String _queryText = "";
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.all(
+                const Radius.circular(15),
+              ),
+            ),
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state is FilteredResultState) {
+                  _queryText = state.term;
+                } else if (state is SelectedSuggestionState) {
+                  _queryText = state.suggestion;
+                }
+                FocusScope.of(context).unfocus();
+                return TextField(
+                  controller: TextEditingController(text: _queryText),
+                  textInputAction: TextInputAction.search,
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: _CustomSearchDelegate(
+                        onReturn: () {
+                          _queryText = '';
+                          this.onReturn();
+                        },
+                        onTapSuggestion: this.onTapSuggestion,
+                      ),
+                    );
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Search",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                    suffixIcon: Icon(Icons.search),
+                  ),
+                );
+              },
+            ),
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
 
 class _CustomSearchDelegate extends SearchDelegate {
-  final Function(String) onTapSuggestion;
-  final VoidCallback onReturn;
+  Function(String) onTapSuggestion;
+  VoidCallback onReturn;
 
-  _CustomSearchDelegate({this.onTapSuggestion, this.onReturn});
+  _CustomSearchDelegate({
+    this.onTapSuggestion,
+    this.onReturn,
+  });
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -97,7 +137,7 @@ class _CustomSearchDelegate extends SearchDelegate {
             key: Key('buildSuggestions_filteredSuggestion'),
             suggestions: state.suggestions,
             onTapSuggestion: (term) {
-              close(context, null);
+              close(context, 'null');
               onTapSuggestion(term);
             },
           );
