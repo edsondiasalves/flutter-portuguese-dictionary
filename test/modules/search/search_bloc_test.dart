@@ -56,7 +56,7 @@ void main() {
       act: (bloc) => bloc.add(FilterResultEvent(term: 'bazinga')),
       expect: [
         LoadingState(),
-        FilteredResultState(entries: [dummyEntry])
+        FilteredResultState(entries: [dummyEntry], term: 'bazinga')
       ],
     );
 
@@ -74,7 +74,10 @@ void main() {
       'Filter the suggestion list',
       build: () => searchBloc,
       act: (bloc) => bloc.add(TapTermEvent(suggestion: 'Agrafador')),
-      expect: [LoadingState(), SelectedSuggestionState(entry: dummyEntry)],
+      expect: [
+        LoadingState(),
+        SelectedSuggestionState(entry: dummyEntry, suggestion: 'Agrafador')
+      ],
     );
   });
 }

@@ -43,13 +43,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     yield LoadingState();
     final entry =
         await this.definitionService.getEntryBySuggestion(event.suggestion);
-    yield SelectedSuggestionState(entry: entry);
+    yield SelectedSuggestionState(entry: entry, suggestion: event.suggestion);
   }
 
   Stream<SearchState> _mapFilterResultEvent(FilterResultEvent event) async* {
     yield LoadingState();
     final entries = await this.definitionService.getEntriesByTerms(event.term);
-    yield FilteredResultState(entries: entries);
+    yield FilteredResultState(entries: entries, term: event.term);
   }
 
   @override
