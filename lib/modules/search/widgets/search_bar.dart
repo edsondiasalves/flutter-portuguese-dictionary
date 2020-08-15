@@ -53,7 +53,10 @@ class SearchBar extends StatelessWidget {
                     hintText: "Search",
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                    suffixIcon: Icon(Icons.search),
+                    suffixIcon: Icon(
+                      Icons.search,
+                      key: Key('SearchBar_SearchIcon'),
+                    ),
                   ),
                 );
               },
