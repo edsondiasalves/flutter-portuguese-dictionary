@@ -4,9 +4,10 @@ import 'package:portuguese_dictionary/routes.dart';
 
 import 'modules/intro/intro.dart';
 
-void main() => runApp(Main(
-      initialRoute: Routes.intro,
-    ));
+int main() {
+  runApp(Main(initialRoute: Routes.intro));
+  return 1;
+}
 
 class Main extends StatelessWidget {
   final String initialRoute;
