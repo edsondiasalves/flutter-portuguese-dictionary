@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
@@ -19,7 +20,10 @@ class Main extends StatelessWidget {
       initialRoute: this.initialRoute,
       routes: {
         Routes.intro: (context) => Intro(),
-        Routes.multitab: (context) => Multitab(),
+        Routes.multitab: (context) => Multitab(
+              newsCollection: Firestore.instance.collection('news'),
+              entriesCollection: Firestore.instance.collection('entries'),
+            ),
       },
     );
   }

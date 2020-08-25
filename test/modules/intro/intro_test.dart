@@ -1,13 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/modules/intro/intro.dart';
 import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
 
-void main() {
-  setUp(() {});
+class MockCollectionReference extends Mock implements CollectionReference {}
 
-  tearDown(() {});
+void main() {
+  CollectionReference collectionReference;
+  setUp(() {
+    collectionReference = MockCollectionReference();
+  });
 
   group('Intro Widget', () {
     testWidgets('Shows the intro information', (WidgetTester tester) async {
@@ -26,15 +31,20 @@ void main() {
     testWidgets('Calls multitab after intro time', (WidgetTester tester) async {
       //Arrange
 
-      await tester.pumpWidget(MaterialApp(
-        home: Intro(),
-        routes: {
-          Routes.multitab: (context) => Multitab(),
-        },
-      ));
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Intro(),
+          routes: {
+            Routes.multitab: (context) => Multitab(
+                  entriesCollection: collectionReference,
+                  newsCollection: collectionReference,
+                ),
+          },
+        ),
+      );
 
       //Act
-      await tester.pumpAndSettle(Duration(seconds: 3));
+      await tester.pump(Duration(seconds: 3));
 
       //Assert
       expect(find.byType(Multitab), findsOneWidget);

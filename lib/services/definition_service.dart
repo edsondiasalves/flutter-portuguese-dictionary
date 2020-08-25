@@ -5,12 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:portuguese_dictionary/model/model.dart';
 
 class DefinitionService {
+  final CollectionReference collection;
+
+  DefinitionService({this.collection});
+
   List<Entry> _entryList = [];
 
   Future<List<Entry>> getAllEntries() async {
     if (_entryList.length == 0) {
-      final documentEntries =
-          await Firestore.instance.collection('entries').getDocuments();
+      final documentEntries = await collection.getDocuments();
 
       documentEntries.documents.forEach((element) {
         _entryList.add(Entry.fromJson(element.data));
@@ -69,7 +72,7 @@ class DefinitionService {
     );
 
     List<dynamic> entriesJson = jsonDecode(entriesFile);
-    final entries = Firestore.instance.collection('entries');
+    final entries = collection;
     entriesJson.forEach((entry) => entries.add(entry));
     return;
   }
