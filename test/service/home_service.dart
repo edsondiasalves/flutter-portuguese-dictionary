@@ -63,5 +63,16 @@ void main() {
       expect(last.imageUrl, 'imageUrl2');
       expect(last.content, 'content2');
     });
+
+    test('insert articles', () async {
+      //Arrange
+      final service = HomeService(collection: mockColRef);
+
+      //Act
+      await service.insertArticlesFromFile();
+
+      //Assert
+      expect(true, true);
+    });
   });
 }

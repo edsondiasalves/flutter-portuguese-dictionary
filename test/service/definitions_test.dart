@@ -89,5 +89,16 @@ void main() {
       //Assert
       expect(entry.definitions.length, 2);
     });
+
+    test('insert entries', () async {
+      //Arrange
+      final service = DefinitionService(collection: mockColRef);
+
+      //Act
+      await service.insertEntriesFromFile();
+
+      //Assert
+      expect(true, true);
+    });
   });
 }
