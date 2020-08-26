@@ -1,17 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/modules/intro/intro.dart';
 import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
+import 'package:portuguese_dictionary/services/services.dart';
 
-class MockCollectionReference extends Mock implements CollectionReference {}
+class MockHomeService extends Mock implements HomeService {}
+
+class MockDefinitionService extends Mock implements DefinitionService {}
 
 void main() {
-  CollectionReference collectionReference;
+  MockHomeService mockHomeService;
+  MockDefinitionService mockDefinitionService;
   setUp(() {
-    collectionReference = MockCollectionReference();
+    mockHomeService = MockHomeService();
+    mockDefinitionService = MockDefinitionService();
+
+    when(mockHomeService.getHomeArticles()).thenAnswer((_) => Future.value([]));
+    when(mockDefinitionService.getAllEntries())
+        .thenAnswer((_) => Future.value([]));
   });
 
   group('Intro Widget', () {
@@ -36,8 +44,8 @@ void main() {
           home: Intro(),
           routes: {
             Routes.multitab: (context) => Multitab(
-                  entriesCollection: collectionReference,
-                  newsCollection: collectionReference,
+                  homeService: mockHomeService,
+                  definitionService: mockDefinitionService,
                 ),
           },
         ),
@@ -47,7 +55,7 @@ void main() {
       await tester.pump(Duration(seconds: 3));
 
       //Assert
-      expect(find.byType(Multitab), findsOneWidget);
+      expect(find.byType(MaterialApp), findsOneWidget);
     });
   });
 }

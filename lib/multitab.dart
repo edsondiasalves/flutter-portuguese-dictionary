@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portuguese_dictionary/services/services.dart';
@@ -10,21 +9,21 @@ import 'modules/profile/bloc/bloc.dart';
 import 'modules/search/bloc/bloc.dart';
 
 class Multitab extends StatefulWidget {
-  final CollectionReference newsCollection;
-  final CollectionReference entriesCollection;
+  final HomeService homeService;
+  final DefinitionService definitionService;
 
-  Multitab({this.newsCollection, this.entriesCollection});
+  Multitab({this.homeService, this.definitionService});
 
   @override
   _MultitabState createState() => _MultitabState(
-        newsCollection: newsCollection,
-        entriesCollection: entriesCollection,
+        homeService: homeService,
+        definitionService: definitionService,
       );
 }
 
 class _MultitabState extends State<Multitab> {
-  final CollectionReference newsCollection;
-  final CollectionReference entriesCollection;
+  final HomeService homeService;
+  final DefinitionService definitionService;
 
   static HomeBloc homeBloc;
   static SearchBloc searchBloc;
@@ -32,17 +31,9 @@ class _MultitabState extends State<Multitab> {
 
   int currentTab = 0;
 
-  _MultitabState({this.newsCollection, this.entriesCollection}) {
-    homeBloc = HomeBloc(
-      homeService: HomeService(
-        collection: newsCollection,
-      ),
-    );
-    searchBloc = SearchBloc(
-      definitionService: DefinitionService(
-        collection: entriesCollection,
-      ),
-    );
+  _MultitabState({this.homeService, this.definitionService}) {
+    homeBloc = HomeBloc(homeService: this.homeService);
+    searchBloc = SearchBloc(definitionService: this.definitionService);
     profileBloc = ProfileBloc();
   }
 
