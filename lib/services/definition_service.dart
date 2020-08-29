@@ -66,7 +66,7 @@ class DefinitionService {
     return entry;
   }
 
-  Future<void> insertEntriesFromFile() async {
+  Future<bool> insertEntriesFromFile() async {
     final entriesFile = await rootBundle.loadString(
       'assets/data/definitions.json',
     );
@@ -74,6 +74,6 @@ class DefinitionService {
     List<dynamic> entriesJson = jsonDecode(entriesFile);
     final entries = collection;
     entriesJson.forEach((entry) => entries.add(entry));
-    return;
+    return true;
   }
 }

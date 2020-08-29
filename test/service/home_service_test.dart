@@ -69,10 +69,10 @@ void main() {
       final service = HomeService(collection: mockColRef);
 
       //Act
-      await service.insertArticlesFromFile();
+      final result = await service.insertArticlesFromFile();
 
       //Assert
-      expect(true, true);
+      expect(true, result);
     });
   });
 }

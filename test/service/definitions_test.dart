@@ -95,10 +95,10 @@ void main() {
       final service = DefinitionService(collection: mockColRef);
 
       //Act
-      await service.insertEntriesFromFile();
+      final result = await service.insertEntriesFromFile();
 
       //Assert
-      expect(true, true);
+      expect(true, result);
     });
   });
 }

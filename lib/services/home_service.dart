@@ -21,7 +21,7 @@ class HomeService {
     return articles;
   }
 
-  Future<void> insertArticlesFromFile() async {
+  Future<bool> insertArticlesFromFile() async {
     final articleFile = await rootBundle.loadString(
       'assets/data/articles.json',
     );
@@ -29,6 +29,6 @@ class HomeService {
     List<dynamic> articlesJson = jsonDecode(articleFile);
     final news = collection;
     articlesJson.forEach((article) => news.add(article));
-    return;
+    return true;
   }
 }
