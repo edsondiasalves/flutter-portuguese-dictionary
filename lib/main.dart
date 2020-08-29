@@ -19,27 +19,37 @@ int main() {
 class Main extends StatelessWidget {
   final String initialRoute;
   final Future<FirebaseApp> firebaseApp;
+  final FirebaseFirestore firestore;
 
-  Main({this.initialRoute, this.firebaseApp});
+  const Main({this.initialRoute, this.firebaseApp, this.firestore});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: firebaseApp,
       builder: (context, snapshot) {
-        // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
+          FirebaseFirestore firestoreInstance;
+
+          if (firestore == null) {
+            firestoreInstance = FirebaseFirestore.instance;
+          } else {
+            firestoreInstance = firestore;
+          }
+
+          final newsCollection = firestoreInstance.collection('news');
+          final entriesCollection = firestoreInstance.collection('entries');
+
           return MaterialApp(
             initialRoute: this.initialRoute,
             routes: {
               Routes.intro: (context) => Intro(),
               Routes.multitab: (context) => Multitab(
                     homeService: HomeService(
-                      collection: FirebaseFirestore.instance.collection('news'),
+                      collection: newsCollection,
                     ),
                     definitionService: DefinitionService(
-                      collection:
-                          FirebaseFirestore.instance.collection('entries'),
+                      collection: entriesCollection,
                     ),
                   ),
             },
