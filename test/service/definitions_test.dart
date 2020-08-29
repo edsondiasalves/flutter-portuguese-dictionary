@@ -7,25 +7,26 @@ class MockCollectionReference extends Mock implements CollectionReference {}
 
 class MockQuerySnapshot extends Mock implements QuerySnapshot {}
 
-class MockDocumentSnapshot extends Mock implements DocumentSnapshot {}
+class MockQueryDocumentSnapshot extends Mock implements QueryDocumentSnapshot {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final CollectionReference mockColRef = MockCollectionReference();
   final QuerySnapshot mockQuerySnapshot = MockQuerySnapshot();
-  final DocumentSnapshot mockDocumentSnapshot1 = MockDocumentSnapshot();
+  final QueryDocumentSnapshot mockDocumentSnapshot1 =
+      MockQueryDocumentSnapshot();
 
   group('Definitions service', () {
     setUp(() {
-      when(mockColRef.getDocuments()).thenAnswer(
+      when(mockColRef.get()).thenAnswer(
         (_) => Future.value(mockQuerySnapshot),
       );
 
-      when(mockQuerySnapshot.documents).thenReturn(
+      when(mockQuerySnapshot.docs).thenReturn(
         [mockDocumentSnapshot1],
       );
 
-      when(mockDocumentSnapshot1.data).thenReturn(
+      when(mockDocumentSnapshot1.data()).thenReturn(
         {
           "id": 1,
           "definitions": [

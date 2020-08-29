@@ -13,10 +13,10 @@ class DefinitionService {
 
   Future<List<Entry>> getAllEntries() async {
     if (_entryList.length == 0) {
-      final documentEntries = await collection.getDocuments();
+      final documentEntries = await collection.get();
 
-      documentEntries.documents.forEach((element) {
-        _entryList.add(Entry.fromJson(element.data));
+      documentEntries.docs.forEach((element) {
+        _entryList.add(Entry.fromJson(element.data()));
       });
     }
 

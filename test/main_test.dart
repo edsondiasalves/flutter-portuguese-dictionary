@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portuguese_dictionary/main.dart' as dictionary_main;
-import 'package:portuguese_dictionary/modules/intro/intro.dart';
-import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('Main', () {
     test('Loads the main Entry point', () {
       try {
@@ -23,7 +24,13 @@ void main() {
           ),
         );
 
-        expect(find.byType(Intro), findsOneWidget);
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+        //Act
+        await tester.pump(Duration(seconds: 1));
+
+        //Assert
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
       });
     });
 
@@ -36,7 +43,7 @@ void main() {
           ),
         );
 
-        expect(find.byType(Multitab), findsOneWidget);
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
       });
     });
   });

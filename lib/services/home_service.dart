@@ -12,10 +12,10 @@ class HomeService {
   Future<List<Article>> getHomeArticles() async {
     final List<Article> articles = [];
 
-    final news = await collection.getDocuments();
+    final news = await collection.get();
 
-    news.documents.forEach((element) {
-      articles.add(Article.fromJson(element.data));
+    news.docs.forEach((element) {
+      articles.add(Article.fromJson(element.data()));
     });
 
     return articles;
