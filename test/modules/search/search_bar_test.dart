@@ -91,6 +91,7 @@ void main() {
           findsOneWidget);
       expect(find.byKey(Key('TermSuggestionsListView')), findsOneWidget);
       expect(find.byType(ListTile), findsNWidgets(2));
+      verify(searchBloc.add(FilterSuggestionEvent(term: 'A'))).called(1);
     });
 
     testWidgets('Tapping a suggestion returns the suggestion text',
@@ -161,7 +162,7 @@ void main() {
           findsOneWidget);
     });
 
-    testWidgets('Search more than 3 characters shows a disclaimer',
+    testWidgets('Search more than 3 characters shows results',
         (WidgetTester tester) async {
       //Arrange
       when(searchBloc.state)
@@ -186,6 +187,7 @@ void main() {
 
       //Assert
       expect(find.byKey(Key('SearchBar_SizedBox')), findsNothing);
+      verify(searchBloc.add(FilterResultEvent(term: 'Bazinga'))).called(1);
     });
 
     testWidgets('Tapping clear icon cleans the query search',
