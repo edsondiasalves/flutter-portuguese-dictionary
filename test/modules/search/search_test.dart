@@ -66,7 +66,8 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(any)).called(1);
+      verify(searchBloc.add(TapTermEvent(suggestion: 'Bazinga term')))
+          .called(1);
     });
 
     testWidgets('Shows a filtered result list', (WidgetTester tester) async {
@@ -112,14 +113,11 @@ void main() {
       await tester.tap(find.byKey(Key('SearchBar_SearchIcon')));
       await tester.pumpAndSettle();
 
-      await tester.enterText(find.byType(TextField), 'Bazinga');
-      await tester.pumpAndSettle();
-
       await tester.tap(find.byType(ListTile).first);
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(any)).called(4);
+      verify(searchBloc.add(TapTermEvent(suggestion: 'Suggestion1'))).called(1);
     });
 
     testWidgets('Tapping on back icon calls bloc event',
@@ -147,7 +145,7 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(any)).called(3);
+      verify(searchBloc.add(StartEvent())).called(1);
     });
 
     testWidgets('Shows the details of a entry when clicking in one suggestion ',
@@ -173,6 +171,33 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(SearchBar), findsOneWidget);
       expect(find.byType(EntryDetails), findsOneWidget);
+    });
+
+    testWidgets('Should return to the welcome page',
+        (WidgetTester tester) async {
+      //Arrange
+      when(searchBloc.state).thenAnswer(
+        (_) => SelectedSuggestionState(
+            entry: Entry(definitions: [
+          Definition(language: "lang1"),
+          Definition(language: "lang2"),
+        ])),
+      );
+
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: searchBloc,
+          child: Search(),
+        ),
+      );
+
+      //Act
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Back'));
+      await tester.pumpAndSettle();
+
+      //Assert
+      verify(searchBloc.add(StartEvent())).called(1);
     });
   });
 }

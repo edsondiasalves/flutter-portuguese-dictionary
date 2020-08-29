@@ -38,7 +38,12 @@ class Search extends StatelessWidget {
                   } else if (state is FilteredResultState) {
                     return SearchResultList(entries: state.entries);
                   } else if (state is SelectedSuggestionState) {
-                    return EntryDetails(entry: state.entry);
+                    return EntryDetails(
+                      entry: state.entry,
+                      onReturn: () {
+                        BlocProvider.of<SearchBloc>(context).add(StartEvent());
+                      },
+                    );
                   }
                   return SizedBox();
                 },
