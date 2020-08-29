@@ -3,10 +3,12 @@ import 'package:portuguese_dictionary/model/model.dart';
 
 class EntryDetails extends StatelessWidget {
   final Entry entry;
+  final VoidCallback onReturn;
 
   const EntryDetails({
     Key key,
     @required this.entry,
+    this.onReturn,
   }) : super(key: key);
 
   @override
@@ -16,6 +18,22 @@ class EntryDetails extends StatelessWidget {
         children: <Widget>[
           EntryCard(definition: entry.definitions[0]),
           EntryCard(definition: entry.definitions[1]),
+          InkWell(
+            onTap: onReturn,
+            child: Container(
+              padding: EdgeInsets.only(right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Icon(Icons.keyboard_arrow_left, color: Colors.black),
+                  Text(
+                    'Back',
+                    style: TextStyle(fontSize: 12),
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

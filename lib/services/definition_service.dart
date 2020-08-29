@@ -1,20 +1,23 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:portuguese_dictionary/model/model.dart';
 
 class DefinitionService {
+  final CollectionReference collection;
+
+  DefinitionService({this.collection});
+
   List<Entry> _entryList = [];
 
   Future<List<Entry>> getAllEntries() async {
     if (_entryList.length == 0) {
-      final definitions = await rootBundle.loadString(
-        'assets/data/definitions.json',
-      );
+      final documentEntries = await collection.getDocuments();
 
-      final entryMap = jsonDecode(definitions);
-      final entries = entryMap.map((_) => Entry.fromJson(_)).toList();
-      _entryList = List<Entry>.from(entries);
+      documentEntries.documents.forEach((element) {
+        _entryList.add(Entry.fromJson(element.data));
+      });
     }
 
     return _entryList;
@@ -61,5 +64,16 @@ class DefinitionService {
         .first;
 
     return entry;
+  }
+
+  Future<bool> insertEntriesFromFile() async {
+    final entriesFile = await rootBundle.loadString(
+      'assets/data/definitions.json',
+    );
+
+    List<dynamic> entriesJson = jsonDecode(entriesFile);
+    final entries = collection;
+    entriesJson.forEach((entry) => entries.add(entry));
+    return true;
   }
 }

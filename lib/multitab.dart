@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:portuguese_dictionary/services/definition_service.dart';
-import 'package:portuguese_dictionary/services/home_service.dart';
+import 'package:portuguese_dictionary/services/services.dart';
 
 import 'bottom_bar.dart';
 import 'modules/home/bloc/bloc.dart';
@@ -10,16 +9,33 @@ import 'modules/profile/bloc/bloc.dart';
 import 'modules/search/bloc/bloc.dart';
 
 class Multitab extends StatefulWidget {
+  final HomeService homeService;
+  final DefinitionService definitionService;
+
+  Multitab({this.homeService, this.definitionService});
+
   @override
-  _MultitabState createState() => _MultitabState();
+  _MultitabState createState() => _MultitabState(
+        homeService: homeService,
+        definitionService: definitionService,
+      );
 }
 
 class _MultitabState extends State<Multitab> {
-  static HomeBloc homeBloc = HomeBloc(homeService: HomeService());
-  static SearchBloc searchBloc =
-      SearchBloc(definitionService: DefinitionService());
-  static ProfileBloc profileBloc = ProfileBloc();
+  final HomeService homeService;
+  final DefinitionService definitionService;
+
+  static HomeBloc homeBloc;
+  static SearchBloc searchBloc;
+  static ProfileBloc profileBloc;
+
   int currentTab = 0;
+
+  _MultitabState({this.homeService, this.definitionService}) {
+    homeBloc = HomeBloc(homeService: this.homeService);
+    searchBloc = SearchBloc(definitionService: this.definitionService);
+    profileBloc = ProfileBloc();
+  }
 
   final navigatorPage = [
     MultiBlocProvider(
