@@ -8,18 +8,16 @@ import 'package:portuguese_dictionary/modules/intro/intro.dart';
 import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
 
-class MockFirebaseApp extends Mock implements FirebaseApp {}
-
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+
+class MockFirebaseApp extends Mock implements FirebaseApp {}
 
 void main() {
   FirebaseApp firebaseApp;
-  FirebaseFirestore firestore;
 
-  setUp(() {
+  setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     firebaseApp = MockFirebaseApp();
-    firestore = MockFirebaseFirestore();
   });
 
   group('Main', () {
@@ -38,7 +36,6 @@ void main() {
           dictionary_main.Main(
             initialRoute: Routes.intro,
             firebaseApp: Future.value(firebaseApp),
-            firestore: firestore,
           ),
         );
 
@@ -59,7 +56,6 @@ void main() {
           dictionary_main.Main(
             initialRoute: Routes.multitab,
             firebaseApp: Future.value(firebaseApp),
-            firestore: firestore,
           ),
         );
 

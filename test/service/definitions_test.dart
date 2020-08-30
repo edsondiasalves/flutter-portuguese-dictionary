@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/services/definition_service.dart';
 
+class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+
 class MockCollectionReference extends Mock implements CollectionReference {}
 
 class MockQuerySnapshot extends Mock implements QuerySnapshot {}
@@ -11,6 +13,7 @@ class MockQueryDocumentSnapshot extends Mock implements QueryDocumentSnapshot {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final FirebaseFirestore firebaseFirestore = MockFirebaseFirestore();
   final CollectionReference mockColRef = MockCollectionReference();
   final QuerySnapshot mockQuerySnapshot = MockQuerySnapshot();
   final QueryDocumentSnapshot mockDocumentSnapshot1 =
@@ -18,6 +21,10 @@ void main() {
 
   group('Definitions service', () {
     setUp(() {
+      when(firebaseFirestore.collection('entries')).thenReturn(
+        mockColRef,
+      );
+
       when(mockColRef.get()).thenAnswer(
         (_) => Future.value(mockQuerySnapshot),
       );
@@ -49,7 +56,7 @@ void main() {
 
     test('get all definitions', () async {
       //Arrange
-      final service = DefinitionService(collection: mockColRef);
+      final service = DefinitionService(firestore: firebaseFirestore);
 
       //Act
       final definitions = await service.getAllEntries();
@@ -60,7 +67,7 @@ void main() {
 
     test('get definitions by language', () async {
       //Arrange
-      final service = DefinitionService(collection: mockColRef);
+      final service = DefinitionService(firestore: firebaseFirestore);
 
       //Act
       final definitions = await service.getEntriesByTerms("Agrafador");
@@ -71,7 +78,7 @@ void main() {
 
     test('get suggestion by term', () async {
       //Arrange
-      final service = DefinitionService(collection: mockColRef);
+      final service = DefinitionService(firestore: firebaseFirestore);
 
       //Act
       final definitions = await service.getSuggestionByTerms("Agrafador");
@@ -82,7 +89,7 @@ void main() {
 
     test('get entry by suggestion', () async {
       //Arrange
-      final service = DefinitionService(collection: mockColRef);
+      final service = DefinitionService(firestore: firebaseFirestore);
 
       //Act
       final entry = await service.getEntryBySuggestion("Agrafador");
@@ -93,7 +100,7 @@ void main() {
 
     test('insert entries', () async {
       //Arrange
-      final service = DefinitionService(collection: mockColRef);
+      final service = DefinitionService(firestore: firebaseFirestore);
 
       //Act
       final result = await service.insertEntriesFromFile();

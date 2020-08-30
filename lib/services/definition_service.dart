@@ -5,9 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:portuguese_dictionary/model/model.dart';
 
 class DefinitionService {
-  final CollectionReference collection;
+  final FirebaseFirestore firestore;
+  CollectionReference collection;
 
-  DefinitionService({this.collection});
+  DefinitionService({this.firestore}) {
+    collection = this.firestore.collection('entries');
+  }
 
   List<Entry> _entryList = [];
 

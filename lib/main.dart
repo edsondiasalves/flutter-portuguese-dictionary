@@ -9,19 +9,20 @@ import 'modules/intro/intro.dart';
 
 int main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(Main(
-    initialRoute: Routes.intro,
-    firebaseApp: Firebase.initializeApp(),
-  ));
+  runApp(
+    Main(
+      initialRoute: Routes.intro,
+      firebaseApp: Firebase.initializeApp(),
+    ),
+  );
   return 1;
 }
 
 class Main extends StatelessWidget {
   final String initialRoute;
   final Future<FirebaseApp> firebaseApp;
-  final FirebaseFirestore firestore;
 
-  const Main({this.initialRoute, this.firebaseApp, this.firestore});
+  const Main({this.initialRoute, this.firebaseApp});
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +30,9 @@ class Main extends StatelessWidget {
       future: firebaseApp,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          FirebaseFirestore firestoreInstance;
-
-          if (firestore == null) {
-            firestoreInstance = FirebaseFirestore.instance;
-          } else {
-            firestoreInstance = firestore;
-          }
-
-          final newsCollection = firestoreInstance.collection('news');
-          final entriesCollection = firestoreInstance.collection('entries');
+          final firestoreInstance = FirebaseFirestore.instanceFor(
+            app: snapshot.data,
+          );
 
           return MaterialApp(
             initialRoute: this.initialRoute,
@@ -46,10 +40,10 @@ class Main extends StatelessWidget {
               Routes.intro: (context) => Intro(),
               Routes.multitab: (context) => Multitab(
                     homeService: HomeService(
-                      collection: newsCollection,
+                      firestore: firestoreInstance,
                     ),
                     definitionService: DefinitionService(
-                      collection: entriesCollection,
+                      firestore: firestoreInstance,
                     ),
                   ),
             },

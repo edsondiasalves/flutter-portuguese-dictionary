@@ -5,9 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:portuguese_dictionary/model/model.dart';
 
 class HomeService {
-  final CollectionReference collection;
+  final FirebaseFirestore firestore;
+  CollectionReference collection;
 
-  HomeService({this.collection});
+  HomeService({this.firestore}) {
+    collection = this.firestore.collection('news');
+  }
 
   Future<List<Article>> getHomeArticles() async {
     final List<Article> articles = [];

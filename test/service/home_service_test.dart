@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/services/home_service.dart';
 
+class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+
 class MockCollectionReference extends Mock implements CollectionReference {}
 
 class MockQuerySnapshot extends Mock implements QuerySnapshot {}
@@ -11,13 +13,18 @@ class MockQueryDocumentSnapshot extends Mock implements QueryDocumentSnapshot {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('Home service', () {
-    final CollectionReference mockColRef = MockCollectionReference();
-    final QuerySnapshot mockQuerySnapshot = MockQuerySnapshot();
-    final DocumentSnapshot mockDocumentSnapshot1 = MockQueryDocumentSnapshot();
-    final DocumentSnapshot mockDocumentSnapshot2 = MockQueryDocumentSnapshot();
+  final FirebaseFirestore firebaseFirestore = MockFirebaseFirestore();
+  final CollectionReference mockColRef = MockCollectionReference();
+  final QuerySnapshot mockQuerySnapshot = MockQuerySnapshot();
+  final DocumentSnapshot mockDocumentSnapshot1 = MockQueryDocumentSnapshot();
+  final DocumentSnapshot mockDocumentSnapshot2 = MockQueryDocumentSnapshot();
 
+  group('Home service', () {
     setUp(() {
+      when(firebaseFirestore.collection('news')).thenReturn(
+        mockColRef,
+      );
+
       when(mockColRef.get()).thenAnswer(
         (_) => Future.value(mockQuerySnapshot),
       );
@@ -45,7 +52,7 @@ void main() {
 
     test('get home articles', () async {
       //Arrange
-      final service = HomeService(collection: mockColRef);
+      final service = HomeService(firestore: firebaseFirestore);
 
       //Act
       final articles = await service.getHomeArticles();
@@ -66,7 +73,7 @@ void main() {
 
     test('insert articles', () async {
       //Arrange
-      final service = HomeService(collection: mockColRef);
+      final service = HomeService(firestore: firebaseFirestore);
 
       //Act
       final result = await service.insertArticlesFromFile();
