@@ -48,25 +48,5 @@ void main() {
         expect(find.byType(Intro), findsOneWidget);
       });
     });
-
-    testWidgets('Shows the multitab main page', (WidgetTester tester) async {
-      //Arrange
-      await tester.runAsync(() async {
-        await tester.pumpWidget(
-          dictionary_main.Main(
-            initialRoute: Routes.multitab,
-            firebaseApp: Future.value(firebaseApp),
-          ),
-        );
-
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-        //Act
-        await tester.pump(Duration(seconds: 1));
-
-        //Assert
-        expect(find.byType(Multitab), findsOneWidget);
-      });
-    });
   });
 }
