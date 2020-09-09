@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/main.dart' as dictionary_main;
 import 'package:portuguese_dictionary/modules/intro/intro.dart';
-import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
@@ -50,3 +49,4 @@ void main() {
     });
   });
 }
+
