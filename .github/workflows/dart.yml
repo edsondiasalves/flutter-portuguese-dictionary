@@ -13,13 +13,8 @@ jobs:
     - name: Install Flutter
       uses: subosito/flutter-action@v1.4.0
     
-    # Get flutter packages
     - run: flutter pub get
     
-    # Build :D 
-    - run: flutter build aot
-    
-    # Analyze our Dart code
     - run: flutter analyze
     
     # Run our tests
@@ -27,12 +22,4 @@ jobs:
     - uses: codecov/codecov-action@v1.0.5
       with:
         token: ${{secrets.CODECOV_TOKEN}}
-        file: ./coverage/lcov.info 
-    
-    # Build the apk
-    # - run: flutter build apk --debug --split-per-abi
-    # - name: Create a Release APK
-    #   uses: ncipollo/release-action@v1
-    #   with:
-    #     artifacts: "build/app/outputs/apk/debug/*.apk"
-    #     token: ${{ secrets.ACCESS_TOKEN }}
+        file: ./coverage/lcov.info
