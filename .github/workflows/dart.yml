@@ -1,25 +1,28 @@
-name: Flutter CI/CD
+name: CI
 
-on: [push, pull_request]
-
-jobs: 
-  build: 
-    # Setting up the environment
-    runs-on: ubuntu-latest
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: macos-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Flutter
-      uses: subosito/flutter-action@v1.4.0
-    
-    - run: flutter pub get
-    
-    - run: flutter analyze
-    
-    # Run our tests
-    - run: flutter test --coverage
-    - uses: codecov/codecov-action@v1.0.5
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        file: ./coverage/lcov.info
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1.4.0
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Upload to code coverage
+        uses: codecov/codecov-action@v1.2.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage/lcov.info
