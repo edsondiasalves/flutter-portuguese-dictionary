@@ -15,10 +15,7 @@ class Multitab extends StatefulWidget {
   Multitab({this.homeService, this.definitionService});
 
   @override
-  _MultitabState createState() => _MultitabState(
-        homeService: homeService,
-        definitionService: definitionService,
-      );
+  _MultitabState createState() => _MultitabState(homeService: homeService, definitionService: definitionService);
 }
 
 class _MultitabState extends State<Multitab> {
@@ -41,8 +38,7 @@ class _MultitabState extends State<Multitab> {
     MultiBlocProvider(
       providers: [
         BlocProvider<HomeBloc>(
-          create: (BuildContext context) =>
-              homeBloc..add(HomeInitializeEvent()),
+          create: (BuildContext context) => homeBloc..add(HomeInitializeEvent()),
         ),
       ],
       child: Home(Key('multitab_home')),
@@ -58,8 +54,7 @@ class _MultitabState extends State<Multitab> {
     MultiBlocProvider(
       providers: [
         BlocProvider<ProfileBloc>(
-          create: (BuildContext context) =>
-              profileBloc..add(ProfileInitializeEvent()),
+          create: (BuildContext context) => profileBloc..add(ProfileInitializeEvent()),
         ),
       ],
       child: Profile(Key('multitab_profile')),

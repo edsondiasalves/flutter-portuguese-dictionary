@@ -1,38 +1,26 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:portuguese_dictionary/model/model.dart';
 
 class DefinitionService {
-  final FirebaseFirestore firestore;
-  CollectionReference collection;
-
-  DefinitionService({this.firestore}) {
-    collection = this.firestore.collection('entries');
-  }
-
-  List<Entry> _entryList = [];
+  final List<Entry> _entries = [];
 
   Future<List<Entry>> getAllEntries() async {
-    if (_entryList.length == 0) {
-      final documentEntries = await collection.get();
-
-      documentEntries.docs.forEach((element) {
-        _entryList.add(Entry.fromJson(element.data()));
-      });
+    if (_entries.length == 0) {
+      final entriesFile = await rootBundle.loadString('assets/data/definitions.json');
+      var entriesJson = jsonDecode(entriesFile);
+      entriesJson.forEach((entry) => _entries.add(Entry.fromJson(entry)));
     }
 
-    return _entryList;
+    return _entries;
   }
 
   Future<List<Entry>> getEntriesByTerms(String term) async {
     List<Entry> allEntries = await this.getAllEntries();
 
-    List<Entry> entries = allEntries
-        .where((e) => e.definitions
-            .any((d) => d.term.toLowerCase().contains(term.toLowerCase())))
-        .toList();
+    List<Entry> entries =
+        allEntries.where((e) => e.definitions.any((d) => d.term.toLowerCase().contains(term.toLowerCase()))).toList();
 
     return entries;
   }
@@ -51,9 +39,7 @@ class DefinitionService {
       });
     });
 
-    final entries = allSuggestions
-        .where((e) => e.toLowerCase().contains(term.toLowerCase()))
-        .toList();
+    final entries = allSuggestions.where((e) => e.toLowerCase().contains(term.toLowerCase())).toList();
 
     return entries;
   }
@@ -61,22 +47,8 @@ class DefinitionService {
   Future<Entry> getEntryBySuggestion(String suggestion) async {
     final allEntries = await this.getAllEntries();
 
-    Entry entry = allEntries
-        .where((e) => e.definitions.any((d) => d.term == suggestion))
-        .toList()
-        .first;
+    Entry entry = allEntries.where((e) => e.definitions.any((d) => d.term == suggestion)).toList().first;
 
     return entry;
-  }
-
-  Future<bool> insertEntriesFromFile() async {
-    final entriesFile = await rootBundle.loadString(
-      'assets/data/definitions.json',
-    );
-
-    List<dynamic> entriesJson = jsonDecode(entriesFile);
-    final entries = collection;
-    entriesJson.forEach((entry) => entries.add(entry));
-    return true;
   }
 }
