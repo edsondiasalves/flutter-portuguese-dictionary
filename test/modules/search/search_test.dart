@@ -8,11 +8,10 @@ import 'package:portuguese_dictionary/model/entry.dart';
 import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 import 'package:portuguese_dictionary/modules/search/search.dart';
 
-class SearchBlockMock extends MockBloc<SearchEvent, SearchState>
-    implements SearchBloc {}
+class SearchBlockMock extends MockBloc<SearchEvent, SearchState> implements SearchBloc {}
 
 void main() {
-  SearchBloc searchBloc;
+  late SearchBloc searchBloc;
 
   setUp(() {
     searchBloc = SearchBlockMock();
@@ -23,10 +22,15 @@ void main() {
   });
 
   group('Search Widget', () {
-    testWidgets('Shows a list of term when entering for the first time',
-        (WidgetTester tester) async {
+    testWidgets('Shows a list of term when entering for the first time', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
+      final searchState = StartedState(entries: []);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
+      );
 
       await tester.pumpWidget(
         BlocProvider.value(
@@ -45,12 +49,17 @@ void main() {
       expect(find.byType(SearchResultList), findsOneWidget);
     });
 
-    testWidgets('Tapping one of the result items in the list',
-        (WidgetTester tester) async {
+    testWidgets('Tapping one of the result items in the list', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer((_) => StartedState(entries: [
-            Entry(definitions: [Definition(term: 'Bazinga term', meanings: [])])
-          ]));
+      final searchState = StartedState(entries: [
+        Entry(definitions: [Definition(term: 'Bazinga term', meanings: [])])
+      ]);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
+      );
 
       await tester.pumpWidget(
         BlocProvider.value(
@@ -66,14 +75,18 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(TapTermEvent(suggestion: 'Bazinga term')))
-          .called(1);
+      expect(searchBloc.state, searchState);
     });
 
     testWidgets('Shows a filtered result list', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state)
-          .thenAnswer((_) => FilteredResultState(entries: []));
+      final searchState = FilteredResultState(entries: []);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
+      );
 
       await tester.pumpWidget(
         BlocProvider.value(
@@ -92,14 +105,17 @@ void main() {
       expect(find.byType(SearchResultList), findsOneWidget);
     });
 
-    testWidgets('Tapping on suggestion calls bloc event',
-        (WidgetTester tester) async {
+    testWidgets('Tapping on suggestion calls bloc event', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer(
-        (_) => FilteredSuggestionState(suggestions: [
-          'Suggestion1',
-          'Suggestion2',
-        ]),
+      final searchState = FilteredSuggestionState(suggestions: [
+        'Suggestion1',
+        'Suggestion2',
+      ]);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
       );
 
       await tester.pumpWidget(
@@ -117,17 +133,20 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(TapTermEvent(suggestion: 'Suggestion1'))).called(1);
+      expect(searchBloc.state, searchState);
     });
 
-    testWidgets('Tapping on back icon calls bloc event',
-        (WidgetTester tester) async {
+    testWidgets('Tapping on back icon calls bloc event', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer(
-        (_) => FilteredSuggestionState(suggestions: [
-          'Suggestion1',
-          'Suggestion2',
-        ]),
+      final searchState = FilteredSuggestionState(suggestions: [
+        'Suggestion1',
+        'Suggestion2',
+      ]);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
       );
 
       await tester.pumpWidget(
@@ -145,18 +164,24 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(StartEvent())).called(1);
+      expect(searchBloc.state, searchState);
     });
 
-    testWidgets('Shows the details of a entry when clicking in one suggestion ',
-        (WidgetTester tester) async {
+    testWidgets('Shows the details of a entry when clicking in one suggestion ', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer(
-        (_) => SelectedSuggestionState(
-            entry: Entry(definitions: [
-          Definition(language: "lang1"),
-          Definition(language: "lang2"),
-        ])),
+      final searchState = SelectedSuggestionState(
+        entry: Entry(
+          definitions: [
+            Definition(language: "lang1"),
+            Definition(language: "lang2"),
+          ],
+        ),
+      );
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
       );
 
       await tester.pumpWidget(
@@ -173,15 +198,21 @@ void main() {
       expect(find.byType(EntryDetails), findsOneWidget);
     });
 
-    testWidgets('Should return to the welcome page',
-        (WidgetTester tester) async {
+    testWidgets('Should return to the welcome page', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer(
-        (_) => SelectedSuggestionState(
-            entry: Entry(definitions: [
-          Definition(language: "lang1"),
-          Definition(language: "lang2"),
-        ])),
+      final searchState = SelectedSuggestionState(
+        entry: Entry(
+          definitions: [
+            Definition(language: "lang1"),
+            Definition(language: "lang2"),
+          ],
+        ),
+      );
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
       );
 
       await tester.pumpWidget(
@@ -197,7 +228,7 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(searchBloc.add(StartEvent())).called(1);
+      expect(searchBloc.state, searchState);
     });
   });
 }

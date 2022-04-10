@@ -3,11 +3,11 @@ import 'package:portuguese_dictionary/model/model.dart';
 
 class EntryDetails extends StatelessWidget {
   final Entry entry;
-  final VoidCallback onReturn;
+  final VoidCallback? onReturn;
 
   const EntryDetails({
-    Key key,
-    @required this.entry,
+    Key? key,
+    required this.entry,
     this.onReturn,
   }) : super(key: key);
 
@@ -16,8 +16,8 @@ class EntryDetails extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          EntryCard(definition: entry.definitions[0]),
-          EntryCard(definition: entry.definitions[1]),
+          EntryCard(definition: entry.definitions![0]),
+          EntryCard(definition: entry.definitions![1]),
           InkWell(
             onTap: onReturn,
             child: Container(
@@ -42,8 +42,8 @@ class EntryDetails extends StatelessWidget {
 
 class EntryCard extends StatelessWidget {
   const EntryCard({
-    Key key,
-    @required this.definition,
+    Key? key,
+    required this.definition,
   }) : super(key: key);
 
   final Definition definition;
@@ -86,12 +86,12 @@ class EntryCard extends StatelessWidget {
   }
 
   Widget _buildMeaningsList() {
-    if (definition.meanings == null || definition.meanings.length == 0)
+    if (definition.meanings == null || definition.meanings!.length == 0)
       return SizedBox();
 
     final List<Widget> meanings = [];
     int index = 0;
-    definition.meanings.forEach((f) {
+    definition.meanings!.forEach((f) {
       return meanings.add(
         Align(
           alignment: Alignment.bottomLeft,
@@ -122,12 +122,12 @@ class EntryCard extends StatelessWidget {
   }
 
   Widget _buildExamplesList() {
-    if (definition.examples == null || definition.examples.length == 0)
+    if (definition.examples == null || definition.examples!.length == 0)
       return SizedBox();
 
     final List<Widget> examples = [];
     int index = 0;
-    definition.examples.forEach((f) {
+    definition.examples!.forEach((f) {
       return examples.add(
         Align(
           alignment: Alignment.bottomLeft,

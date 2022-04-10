@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
-  final int currentTab;
-  final ValueChanged<int> onTabChange;
+  final int? currentTab;
+  final ValueChanged<int>? onTabChange;
 
   const BottomBar({this.currentTab, this.onTabChange});
 
@@ -16,7 +16,7 @@ class BottomBar extends StatelessWidget {
         _buildTab('Profile', Icons.person),
       ],
       onTap: (index) {
-        onTabChange(index);
+        onTabChange!(index);
       },
     );
   }
@@ -27,12 +27,7 @@ class BottomBar extends StatelessWidget {
         icon,
         color: Colors.blue,
       ),
-      title: Text(
-        tabName,
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
+      label: tabName,
     );
   }
 }

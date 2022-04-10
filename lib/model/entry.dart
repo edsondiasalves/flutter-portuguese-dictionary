@@ -5,13 +5,13 @@ class Entry {
 
   Entry.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    definitions = List<Definition>();
+    definitions = List<Definition>.empty(growable: true);
 
     json['definitions'].forEach((value) {
-      definitions.add(Definition.fromJson(value));
+      definitions!.add(Definition.fromJson(value));
     });
   }
 
-  int id;
-  List<Definition> definitions;
+  int? id;
+  List<Definition>? definitions;
 }

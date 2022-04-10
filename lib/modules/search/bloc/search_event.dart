@@ -10,28 +10,28 @@ abstract class SearchEvent extends Equatable {
 class StartEvent extends SearchEvent {}
 
 class FilterResultEvent extends SearchEvent {
-  final String term;
+  final String? term;
 
   const FilterResultEvent({this.term});
 
   @override
-  List<Object> get props => [term];
+  List<Object> get props => [term!];
 }
 
 class FilterSuggestionEvent extends SearchEvent {
-  final String term;
+  final String? term;
 
   const FilterSuggestionEvent({this.term});
 
   @override
-  List<Object> get props => [term];
+  List<Object> get props => [term!];
 }
 
 class TapTermEvent extends SearchEvent {
-  final String suggestion;
+  final String? suggestion;
 
   const TapTermEvent({this.suggestion});
 
   @override
-  List<Object> get props => [suggestion];
+  List<Object> get props => [suggestion!];
 }

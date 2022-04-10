@@ -47,7 +47,7 @@ void main() {
       final entry = await service.getEntryBySuggestion("Agrafador");
 
       //Assert
-      expect(entry.definitions.length, 2);
+      expect(entry.definitions!.length, 2);
     });
   });
 }

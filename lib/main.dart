@@ -14,9 +14,9 @@ void main() {
 }
 
 class Main extends StatelessWidget {
-  final String initialRoute;
-  final HomeService homeService;
-  final DefinitionService definitionService;
+  final String? initialRoute;
+  final HomeService? homeService;
+  final DefinitionService? definitionService;
 
   const Main({this.initialRoute, this.homeService, this.definitionService});
 

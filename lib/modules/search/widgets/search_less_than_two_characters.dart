@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SearchLessThanTwoCharacters extends StatelessWidget {
-  const SearchLessThanTwoCharacters({Key key}) : super(key: key);
+  const SearchLessThanTwoCharacters({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

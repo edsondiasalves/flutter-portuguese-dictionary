@@ -4,27 +4,27 @@ import 'package:portuguese_dictionary/model/model.dart';
 import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 
 class TermResultList extends StatelessWidget {
-  final List<Entry> entries;
+  final List<Entry>? entries;
 
-  const TermResultList({Key key, @required this.entries}) : super(key: key);
+  const TermResultList({Key? key, required this.entries}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cards = List<Card>();
+    final cards = List<Card>.empty(growable: true);
 
-    for (var result in entries) {
-      final definitions = result.definitions;
+    for (var result in entries!) {
+      final definitions = result.definitions!;
       String meaning = 'No provided';
 
       for (var definition in definitions) {
-        if (definition.meanings.length > 0) {
-          meaning = definition.meanings[0];
+        if (definition.meanings!.length > 0) {
+          meaning = definition.meanings![0];
         }
 
         final card = Card(
           child: InkWell(
             child: ListTile(
-              title: Text(definition.term),
+              title: Text(definition.term!),
               subtitle: Text(meaning),
             ),
             onTap: () {

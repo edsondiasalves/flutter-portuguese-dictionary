@@ -16,10 +16,10 @@ class HomeLoadingState extends HomeState {
 }
 
 class HomeLoadedState extends HomeState {
-  final List<Article> articles;
+  final List<Article>? articles;
 
   const HomeLoadedState({this.articles});
 
   @override
-  List<Object> get props => [articles];
+  List<Object> get props => [articles!];
 }

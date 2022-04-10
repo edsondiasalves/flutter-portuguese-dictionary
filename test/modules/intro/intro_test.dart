@@ -1,25 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:portuguese_dictionary/model/article.dart';
+import 'package:portuguese_dictionary/model/entry.dart';
 import 'package:portuguese_dictionary/modules/intro/intro.dart';
 import 'package:portuguese_dictionary/multitab.dart';
 import 'package:portuguese_dictionary/routes.dart';
 import 'package:portuguese_dictionary/services/services.dart';
 
-class MockHomeService extends Mock implements HomeService {}
+class MockHomeService extends Mock implements HomeService {
+  @override
+  Future<List<Article>> getHomeArticles() async =>
+      super.noSuchMethod(Invocation.method(#getHomeArticles, []), returnValue: [Article()]);
+}
 
-class MockDefinitionService extends Mock implements DefinitionService {}
+class MockDefinitionService extends Mock implements DefinitionService {
+  @override
+  Future<List<Entry>> getAllEntries() async =>
+      super.noSuchMethod(Invocation.method(#getAllEntries, []), returnValue: [Entry()]);
+
+  @override
+  Future<List<Entry>> getEntriesByTerms(String? term) async =>
+      super.noSuchMethod(Invocation.method(#getEntriesByTerms, [term]), returnValue: [Entry()]);
+
+  @override
+  Future<List<String?>> getSuggestionByTerms(String? term) async =>
+      super.noSuchMethod(Invocation.method(#getSuggestionByTerms, []), returnValue: [""]);
+
+  @override
+  Future<Entry> getEntryBySuggestion(String? suggestion) async =>
+      super.noSuchMethod(Invocation.method(#getEntryBySuggestion, []), returnValue: Entry());
+}
 
 void main() {
-  MockHomeService mockHomeService;
-  MockDefinitionService mockDefinitionService;
+  MockHomeService? mockHomeService;
+  MockDefinitionService? mockDefinitionService;
   setUp(() {
     mockHomeService = MockHomeService();
     mockDefinitionService = MockDefinitionService();
 
-    when(mockHomeService.getHomeArticles()).thenAnswer((_) => Future.value([]));
-    when(mockDefinitionService.getAllEntries())
-        .thenAnswer((_) => Future.value([]));
+    final articles = List<Article>.empty(growable: true);
+
+    when(mockHomeService!.getHomeArticles()).thenAnswer((_) async => articles);
+    when(mockDefinitionService!.getAllEntries()).thenAnswer((_) async => List<Entry>.empty(growable: true));
   });
 
   group('Intro Widget', () {
@@ -38,7 +61,6 @@ void main() {
 
     testWidgets('Calls multitab after intro time', (WidgetTester tester) async {
       //Arrange
-
       await tester.pumpWidget(
         MaterialApp(
           home: Intro(),

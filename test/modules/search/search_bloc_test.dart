@@ -5,11 +5,27 @@ import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 import 'package:portuguese_dictionary/services/definition_service.dart';
 import 'package:test/test.dart';
 
-class MockDefinitionService extends Mock implements DefinitionService {}
+class MockDefinitionService extends Mock implements DefinitionService {
+  @override
+  Future<List<Entry>> getAllEntries() async =>
+      super.noSuchMethod(Invocation.method(#getAllEntries, []), returnValue: [Entry()]);
+
+  @override
+  Future<List<Entry>> getEntriesByTerms(String? term) async =>
+      super.noSuchMethod(Invocation.method(#getEntriesByTerms, [term]), returnValue: [Entry()]);
+
+  @override
+  Future<List<String?>> getSuggestionByTerms(String? term) async =>
+      super.noSuchMethod(Invocation.method(#getSuggestionByTerms, []), returnValue: [""]);
+
+  @override
+  Future<Entry> getEntryBySuggestion(String? suggestion) async =>
+      super.noSuchMethod(Invocation.method(#getEntryBySuggestion, []), returnValue: Entry());
+}
 
 void main() {
   group('SearchBloc', () {
-    SearchBloc searchBloc;
+    late SearchBloc searchBloc;
     MockDefinitionService definitionService;
 
     final fullEntries = [Entry(), Entry()];
@@ -39,22 +55,18 @@ void main() {
       searchBloc.close();
     });
 
-    test('Initial state is Loading', () {
-      expect(searchBloc.initialState, LoadingState());
-    });
-
     blocTest(
       'Start the search',
       build: () => searchBloc,
-      act: (bloc) => bloc.add(StartEvent()),
-      expect: [LoadingState(), StartedState(entries: fullEntries)],
+      act: (dynamic bloc) => bloc.add(StartEvent()),
+      expect: () => [LoadingState(), StartedState(entries: fullEntries)],
     );
 
     blocTest(
       'Filter the result list',
       build: () => searchBloc,
-      act: (bloc) => bloc.add(FilterResultEvent(term: 'bazinga')),
-      expect: [
+      act: (dynamic bloc) => bloc.add(FilterResultEvent(term: 'bazinga')),
+      expect: () => [
         LoadingState(),
         FilteredResultState(entries: [dummyEntry], term: 'bazinga')
       ],
@@ -63,21 +75,15 @@ void main() {
     blocTest(
       'Filter the suggestion list',
       build: () => searchBloc,
-      act: (bloc) => bloc.add(FilterSuggestionEvent(term: 'Hello')),
-      expect: [
-        LoadingState(),
-        FilteredSuggestionState(suggestions: dummySuggestion)
-      ],
+      act: (dynamic bloc) => bloc.add(FilterSuggestionEvent(term: 'Hello')),
+      expect: () => [LoadingState(), FilteredSuggestionState(suggestions: dummySuggestion)],
     );
 
     blocTest(
       'Filter the suggestion list',
       build: () => searchBloc,
-      act: (bloc) => bloc.add(TapTermEvent(suggestion: 'Agrafador')),
-      expect: [
-        LoadingState(),
-        SelectedSuggestionState(entry: dummyEntry, suggestion: 'Agrafador')
-      ],
+      act: (dynamic bloc) => bloc.add(TapTermEvent(suggestion: 'Agrafador')),
+      expect: () => [LoadingState(), SelectedSuggestionState(entry: dummyEntry, suggestion: 'Agrafador')],
     );
   });
 }

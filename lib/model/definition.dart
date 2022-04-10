@@ -1,8 +1,8 @@
 class Definition {
-  String language;
-  String term;
-  List<String> meanings;
-  List<String> examples;
+  String? language;
+  String? term;
+  List<String>? meanings;
+  List<String>? examples;
 
   Definition({this.language, this.term, this.meanings, this.examples});
 

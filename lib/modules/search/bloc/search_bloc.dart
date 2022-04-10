@@ -1,59 +1,55 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:portuguese_dictionary/services/definition_service.dart';
 
 import 'bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final DefinitionService definitionService;
+  final DefinitionService? definitionService;
 
-  SearchBloc({@required this.definitionService});
+  SearchBloc({required this.definitionService}) : super(LoadingState()) {
+    on<StartEvent>((event, emit) async {
+      await _mapStartEvent(emit);
+    });
 
-  @override
-  SearchState get initialState => LoadingState();
+    on<FilterSuggestionEvent>((event, emit) async {
+      await _mapFilterSuggestionEvent(event, emit);
+    });
 
-  @override
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is StartEvent) {
-      yield* _mapStartEvent();
-    } else if (event is FilterSuggestionEvent) {
-      yield* _mapFilterSuggestionEvent(event);
-    } else if (event is TapTermEvent) {
-      yield* _mapTapSuggestionEvent(event);
-    } else if (event is FilterResultEvent) {
-      yield* _mapFilterResultEvent(event);
-    }
+    on<TapTermEvent>((event, emit) async {
+      await _mapTapSuggestionEvent(event, emit);
+    });
+
+    on<FilterResultEvent>((event, emit) async {
+      await _mapFilterResultEvent(event, emit);
+    });
   }
 
-  Stream<SearchState> _mapStartEvent() async* {
-    yield LoadingState();
-    final entries = await this.definitionService.getAllEntries();
-    yield StartedState(entries: entries);
+  Future<void> _mapStartEvent(Emitter<SearchState> emit) async {
+    emit(LoadingState());
+    final entries = await this.definitionService!.getAllEntries();
+    emit(StartedState(entries: entries));
   }
 
-  Stream<SearchState> _mapFilterSuggestionEvent(
-      FilterSuggestionEvent event) async* {
-    yield LoadingState();
+  Future<void> _mapFilterSuggestionEvent(
+      FilterSuggestionEvent event, Emitter<SearchState> emit) async {
+    emit(LoadingState());
     final suggestions =
-        await this.definitionService.getSuggestionByTerms(event.term);
-    yield FilteredSuggestionState(suggestions: suggestions);
+        await this.definitionService!.getSuggestionByTerms(event.term!);
+    emit(FilteredSuggestionState(suggestions: suggestions));
   }
 
-  Stream<SearchState> _mapTapSuggestionEvent(TapTermEvent event) async* {
-    yield LoadingState();
+  Future<void> _mapTapSuggestionEvent(
+      TapTermEvent event, Emitter<SearchState> emit) async {
+    emit(LoadingState());
     final entry =
-        await this.definitionService.getEntryBySuggestion(event.suggestion);
-    yield SelectedSuggestionState(entry: entry, suggestion: event.suggestion);
+        await this.definitionService!.getEntryBySuggestion(event.suggestion);
+    emit(SelectedSuggestionState(entry: entry, suggestion: event.suggestion));
   }
 
-  Stream<SearchState> _mapFilterResultEvent(FilterResultEvent event) async* {
-    yield LoadingState();
-    final entries = await this.definitionService.getEntriesByTerms(event.term);
-    yield FilteredResultState(entries: entries, term: event.term);
-  }
-
-  @override
-  void onTransition(Transition<SearchEvent, SearchState> transition) {
-    print(transition);
+  Future<void> _mapFilterResultEvent(
+      FilterResultEvent event, Emitter<SearchState> emit) async {
+    emit(LoadingState());
+    final entries = await this.definitionService!.getEntriesByTerms(event.term);
+    emit(FilteredResultState(entries: entries, term: event.term));
   }
 }

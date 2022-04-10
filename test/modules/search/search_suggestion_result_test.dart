@@ -29,7 +29,7 @@ void main() {
         'Tapping the first suggestion returning the correct suggestion title',
         (WidgetTester tester) async {
       //Arrange
-      String suggestionTitle;
+      String? suggestionTitle;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -59,7 +59,7 @@ void main() {
         'Tapping the last suggestion returning the correct suggestion title',
         (WidgetTester tester) async {
       //Arrange
-      String suggestionTitle;
+      String? suggestionTitle;
 
       await tester.pumpWidget(
         MaterialApp(

@@ -1,23 +1,19 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 
 import 'bloc.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  @override
-  ProfileState get initialState => ProfileInitial();
+  ProfileBloc() : super(ProfileInitial()) {
+    on<ProfileInitializeEvent>((event, emit) async {
+      emit(ProfileInitial());
+    });
 
-  @override
-  Stream<ProfileState> mapEventToState(
-    ProfileEvent event,
-  ) async* {
-    if (event is ProfileInitializeEvent) {
-      yield ProfileInitial();
-    } else if (event is ProfileLoginEvent) {
-      yield ProfileLoginState();
-    } else if (event is ProfileRegisterEvent) {
-      yield ProfileRegisterState();
-    }
+    on<ProfileLoginEvent>((event, emit) async {
+      emit(ProfileLoginState());
+    });
+
+    on<ProfileRegisterEvent>((event, emit) async {
+      emit(ProfileRegisterState());
+    });
   }
 }

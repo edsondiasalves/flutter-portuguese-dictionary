@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ProfileBloc', () {
-    ProfileBloc profileBloc;
+    late ProfileBloc profileBloc;
 
     setUp(() {
       profileBloc = ProfileBloc();
@@ -14,15 +14,11 @@ void main() {
       profileBloc.close();
     });
 
-    test('Initial state', () {
-      expect(profileBloc.initialState, ProfileInitial());
-    });
-
     blocTest(
       'Initialize Profile',
       build: () => profileBloc,
-      act: (bloc) => bloc.add(ProfileInitializeEvent()),
-      expect: [
+      act: (dynamic bloc) => bloc.add(ProfileInitializeEvent()),
+      expect: () => [
         ProfileInitial(),
       ],
     );
@@ -30,18 +26,18 @@ void main() {
     blocTest(
       'On login event',
       build: () => profileBloc,
-      act: (bloc) => bloc.add(ProfileLoginEvent()),
-      expect: [
-        ProfileInitial(), ProfileLoginState(),
+      act: (dynamic bloc) => bloc.add(ProfileLoginEvent()),
+      expect: () => [
+        ProfileLoginState(),
       ],
     );
 
     blocTest(
       'On register event',
       build: () => profileBloc,
-      act: (bloc) => bloc.add(ProfileRegisterEvent()),
-      expect: [
-        ProfileInitial(), ProfileRegisterState(),
+      act: (dynamic bloc) => bloc.add(ProfileRegisterEvent()),
+      expect: () => [
+        ProfileRegisterState(),
       ],
     );
   });

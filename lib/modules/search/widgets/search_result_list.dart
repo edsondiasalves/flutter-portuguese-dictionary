@@ -4,7 +4,7 @@ import 'package:portuguese_dictionary/model/entry.dart';
 import '../search.dart';
 
 class SearchResultList extends StatelessWidget {
-  final List<Entry> entries;
+  final List<Entry>? entries;
   const SearchResultList({this.entries});
 
   @override
