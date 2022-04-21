@@ -13,7 +13,6 @@ class Home extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           title: Center(child: Text('Home')),
         ),
@@ -27,7 +26,7 @@ class Home extends StatelessWidget {
               } else if (state is HomeLoadedState) {
                 return Container(
                   child: ListView(
-                    children: state.articles
+                    children: state.articles!
                         .map((article) => ArticlePaper(article: article))
                         .toList(),
                   ),
@@ -43,7 +42,7 @@ class Home extends StatelessWidget {
 }
 
 class ArticlePaper extends StatelessWidget {
-  final Article article;
+  final Article? article;
 
   const ArticlePaper({this.article});
 
@@ -65,14 +64,14 @@ class ArticlePaper extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Image(
-            image: AssetImage(article.imageUrl),
+            image: AssetImage(article!.imageUrl!),
             width: 50,
             height: 50,
           ),
           SizedBox(
             width: 10,
           ),
-          Text(article.title),
+          Text(article!.title!),
         ],
       ),
     );
@@ -81,7 +80,7 @@ class ArticlePaper extends StatelessWidget {
   Widget _buildBody() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Text(article.content),
+      child: Text(article!.content!),
     );
   }
 }

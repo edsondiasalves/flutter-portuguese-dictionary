@@ -16,38 +16,38 @@ class DefinitionService {
     return _entries;
   }
 
-  Future<List<Entry>> getEntriesByTerms(String term) async {
+  Future<List<Entry>> getEntriesByTerms(String? term) async {
     List<Entry> allEntries = await this.getAllEntries();
 
     List<Entry> entries =
-        allEntries.where((e) => e.definitions.any((d) => d.term.toLowerCase().contains(term.toLowerCase()))).toList();
+        allEntries.where((e) => e.definitions!.any((d) => d.term!.toLowerCase().contains(term!.toLowerCase()))).toList();
 
     return entries;
   }
 
-  Future<List<String>> getSuggestionByTerms(String term) async {
+  Future<List<String?>> getSuggestionByTerms(String term) async {
     if (term.length == 0) return [];
 
     final allEntries = await this.getAllEntries();
 
-    final List<String> allSuggestions = [];
+    final List<String?> allSuggestions = [];
     allEntries.forEach((f) {
-      f.definitions.forEach((d) {
+      f.definitions!.forEach((d) {
         if (!allSuggestions.contains(d.term)) {
           allSuggestions.add(d.term);
         }
       });
     });
 
-    final entries = allSuggestions.where((e) => e.toLowerCase().contains(term.toLowerCase())).toList();
+    final entries = allSuggestions.where((e) => e!.toLowerCase().contains(term.toLowerCase())).toList();
 
     return entries;
   }
 
-  Future<Entry> getEntryBySuggestion(String suggestion) async {
+  Future<Entry> getEntryBySuggestion(String? suggestion) async {
     final allEntries = await this.getAllEntries();
 
-    Entry entry = allEntries.where((e) => e.definitions.any((d) => d.term == suggestion)).toList().first;
+    Entry entry = allEntries.where((e) => e.definitions!.any((d) => d.term == suggestion)).toList().first;
 
     return entry;
   }

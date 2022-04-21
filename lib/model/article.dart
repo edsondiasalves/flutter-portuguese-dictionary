@@ -1,7 +1,7 @@
 class Article {
-  final String title;
-  final String imageUrl;
-  final String content;
+  final String? title;
+  final String? imageUrl;
+  final String? content;
 
   Article({this.title, this.imageUrl, this.content});
 

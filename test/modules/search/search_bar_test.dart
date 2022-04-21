@@ -2,18 +2,25 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/modules/search/bloc/bloc.dart';
 import 'package:portuguese_dictionary/modules/search/search.dart';
 
-class SearchBlockMock extends MockBloc<SearchEvent, SearchState>
+class SearchBlocMock extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
 
 void main() {
-  SearchBloc searchBloc;
+  late SearchBloc searchBloc;
+  late SearchState searchState;
 
   setUp(() {
-    searchBloc = SearchBlockMock();
+    searchBloc = SearchBlocMock();
+    searchState = StartedState(entries: []);
+
+    whenListen(
+      searchBloc,
+      Stream.fromIterable([searchState]),
+      initialState: searchState,
+    );
   });
 
   tearDown(() {
@@ -23,7 +30,6 @@ void main() {
   group('Search Bar', () {
     testWidgets('Shows the search bar', (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
 
       await tester.pumpWidget(
         BlocProvider.value(
@@ -43,8 +49,6 @@ void main() {
     testWidgets('Search bar returns icons for search, clear and back',
         (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
-
       await tester.pumpWidget(
         BlocProvider.value(
           value: searchBloc,
@@ -65,11 +69,15 @@ void main() {
     testWidgets('Shows suggestions after type at least one character',
         (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer(
-        (_) => FilteredSuggestionState(suggestions: [
-          'Suggestion1',
-          'Suggestion2',
-        ]),
+      final searchState = FilteredSuggestionState(suggestions: [
+        'Suggestion1',
+        'Suggestion2',
+      ]);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
       );
 
       await tester.pumpWidget(
@@ -91,7 +99,6 @@ void main() {
           findsOneWidget);
       expect(find.byKey(Key('TermSuggestionsListView')), findsOneWidget);
       expect(find.byType(ListTile), findsNWidgets(2));
-      verify(searchBloc.add(FilterSuggestionEvent(term: 'A'))).called(1);
     });
 
     testWidgets('Tapping a suggestion returns the suggestion text',
@@ -99,11 +106,15 @@ void main() {
       //Arrange
       String suggestionText = "";
 
-      when(searchBloc.state).thenAnswer(
-        (_) => FilteredSuggestionState(suggestions: [
-          'Suggestion1',
-          'Suggestion2',
-        ]),
+      final searchState = FilteredSuggestionState(suggestions: [
+        'Suggestion1',
+        'Suggestion2',
+      ]);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
       );
 
       await tester.pumpWidget(
@@ -138,8 +149,6 @@ void main() {
     testWidgets('Search less than 3 characters shows a disclaimer',
         (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state).thenAnswer((_) => StartedState(entries: []));
-
       await tester.pumpWidget(
         BlocProvider.value(
           value: searchBloc,
@@ -165,8 +174,13 @@ void main() {
     testWidgets('Search more than 3 characters shows results',
         (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state)
-          .thenAnswer((_) => FilteredResultState(entries: []));
+      final searchState = FilteredResultState(entries: []);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
+      );
 
       await tester.pumpWidget(
         BlocProvider.value(
@@ -187,14 +201,18 @@ void main() {
 
       //Assert
       expect(find.byKey(Key('SearchBar_SizedBox')), findsNothing);
-      verify(searchBloc.add(FilterResultEvent(term: 'Bazinga'))).called(1);
     });
 
     testWidgets('Tapping clear icon cleans the query search',
         (WidgetTester tester) async {
       //Arrange
-      when(searchBloc.state)
-          .thenAnswer((_) => FilteredResultState(entries: []));
+      final searchState = FilteredResultState(entries: []);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
+      );
 
       await tester.pumpWidget(
         BlocProvider.value(
@@ -226,8 +244,13 @@ void main() {
       //Arrange
       bool isReturnCalled = false;
 
-      when(searchBloc.state)
-          .thenAnswer((_) => FilteredResultState(entries: []));
+      final searchState = FilteredResultState(entries: []);
+
+      whenListen(
+        searchBloc,
+        Stream.fromIterable([searchState]),
+        initialState: searchState,
+      );
 
       await tester.pumpWidget(
         BlocProvider.value(

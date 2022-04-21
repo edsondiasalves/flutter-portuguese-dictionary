@@ -4,7 +4,7 @@ import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 
 class ProfileWelcome extends StatelessWidget {
   const ProfileWelcome({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

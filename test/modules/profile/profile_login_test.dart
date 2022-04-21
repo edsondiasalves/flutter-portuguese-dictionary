@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 import 'package:portuguese_dictionary/modules/profile/profile.dart';
 
@@ -10,21 +9,24 @@ class ProfileBlockMock extends MockBloc<ProfileEvent, ProfileState>
     implements ProfileBloc {}
 
 void main() {
-  ProfileBloc profileBloc;
-
-  setUp(() {
-    profileBloc = ProfileBlockMock();
-  });
-
-  tearDown(() {
-    profileBloc.close();
-  });
-
   group('Profile Login', () {
+    late ProfileBloc profileBloc = ProfileBlockMock();
+    final profileBlocState = ProfileInitial();
+
+    setUp(() {
+      whenListen(
+        profileBloc,
+        Stream.fromIterable([profileBlocState]),
+        initialState: profileBlocState,
+      );
+    });
+
+    tearDown(() {
+      profileBloc.close();
+    });
+
     testWidgets('Shows the login page', (WidgetTester tester) async {
       //Arrange
-      when(profileBloc.state).thenAnswer((_) => ProfileInitial());
-
       await _pumpProfileLoginWidget(tester, profileBloc);
 
       //Act
@@ -39,8 +41,6 @@ void main() {
     testWidgets('Should return to the welcome page',
         (WidgetTester tester) async {
       //Arrange
-      when(profileBloc.state).thenAnswer((_) => ProfileInitial());
-
       await _pumpProfileLoginWidget(tester, profileBloc);
 
       //Act
@@ -49,13 +49,11 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(profileBloc.add(ProfileInitializeEvent())).called(1);
+      expect(profileBloc.state, profileBlocState);
     });
 
     testWidgets('Should go to the register page', (WidgetTester tester) async {
       //Arrange
-      when(profileBloc.state).thenAnswer((_) => ProfileInitial());
-
       await _pumpProfileLoginWidget(tester, profileBloc);
 
       //Act
@@ -64,7 +62,7 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(profileBloc.add(ProfileRegisterEvent())).called(1);
+      expect(profileBloc.state, profileBlocState);
     });
   });
 }

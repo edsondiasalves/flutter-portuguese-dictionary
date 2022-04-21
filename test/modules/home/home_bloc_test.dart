@@ -1,14 +1,19 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:portuguese_dictionary/model/model.dart';
 import 'package:portuguese_dictionary/modules/home/bloc/bloc.dart';
 import 'package:portuguese_dictionary/services/home_service.dart';
 import 'package:test/test.dart';
 
-class HomeServiceMock extends Mock implements HomeService {}
+class HomeServiceMock extends Mock implements HomeService {
+  @override
+  Future<List<Article>> getHomeArticles() async =>
+      super.noSuchMethod(Invocation.method(#getHomeArticles, []), returnValue: [Article()]);
+}
 
 void main() {
   group('HomeBloc', () {
-    HomeBloc homeBloc;
+    late HomeBloc homeBloc;
     HomeService homeService;
 
     setUp(() {
@@ -21,19 +26,11 @@ void main() {
       homeBloc.close();
     });
 
-    test('Initial state', () {
-      expect(homeBloc.initialState, HomeInitial());
-    });
-
     blocTest(
       'Initialize Home',
       build: () => homeBloc,
-      act: (bloc) => bloc.add(HomeInitializeEvent()),
-      expect: [
-        HomeInitial(),
-        HomeLoadingState(),
-        HomeLoadedState(articles: [])
-      ],
+      act: (dynamic bloc) => bloc.add(HomeInitializeEvent()),
+      expect: () => [HomeLoadingState(), HomeLoadedState(articles: [])],
     );
   });
 }

@@ -6,14 +6,14 @@ import '../bloc/bloc.dart';
 import '../search.dart';
 
 class SearchBar extends StatelessWidget {
-  final Function(String) onTapSuggestion;
-  final VoidCallback onReturn;
+  final Function(String)? onTapSuggestion;
+  final VoidCallback? onReturn;
 
   SearchBar({this.onTapSuggestion, this.onReturn});
 
   @override
   Widget build(BuildContext context) {
-    String _queryText = "";
+    String? _queryText = "";
     return Column(
       children: [
         Container(
@@ -43,7 +43,7 @@ class SearchBar extends StatelessWidget {
                       delegate: _CustomSearchDelegate(
                         onReturn: () {
                           _queryText = '';
-                          this.onReturn();
+                          this.onReturn!();
                         },
                         onTapSuggestion: this.onTapSuggestion,
                       ),
@@ -69,8 +69,8 @@ class SearchBar extends StatelessWidget {
 }
 
 class _CustomSearchDelegate extends SearchDelegate {
-  Function(String) onTapSuggestion;
-  VoidCallback onReturn;
+  Function(String)? onTapSuggestion;
+  VoidCallback? onReturn;
 
   _CustomSearchDelegate({
     this.onTapSuggestion,
@@ -106,7 +106,7 @@ class _CustomSearchDelegate extends SearchDelegate {
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             close(context, null);
-            onReturn();
+            onReturn!();
           },
         ),
       ],
@@ -141,7 +141,7 @@ class _CustomSearchDelegate extends SearchDelegate {
             suggestions: state.suggestions,
             onTapSuggestion: (term) {
               close(context, 'null');
-              onTapSuggestion(term);
+              onTapSuggestion!(term!);
             },
           );
         }

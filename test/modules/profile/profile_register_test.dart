@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:portuguese_dictionary/modules/profile/bloc/bloc.dart';
 import 'package:portuguese_dictionary/modules/profile/profile.dart';
 
@@ -10,10 +9,17 @@ class ProfileBlockMock extends MockBloc<ProfileEvent, ProfileState>
     implements ProfileBloc {}
 
 void main() {
-  ProfileBloc profileBloc;
-
+  late ProfileBloc profileBloc;
+  late ProfileState profileState;
   setUp(() {
     profileBloc = ProfileBlockMock();
+    profileState = ProfileInitial();
+
+    whenListen(
+      profileBloc,
+      Stream.fromIterable([profileState]),
+      initialState: profileState,
+    );
   });
 
   tearDown(() {
@@ -23,8 +29,6 @@ void main() {
   group('Profile Register', () {
     testWidgets('Shows the register page', (WidgetTester tester) async {
       //Arrange
-      when(profileBloc.state).thenAnswer((_) => ProfileInitial());
-
       await _pumpProfileRegisterWidget(tester, profileBloc);
 
       //Act
@@ -40,8 +44,6 @@ void main() {
     testWidgets('Should return to the welcome page',
         (WidgetTester tester) async {
       //Arrange
-      when(profileBloc.state).thenAnswer((_) => ProfileInitial());
-
       await _pumpProfileRegisterWidget(tester, profileBloc);
 
       //Act
@@ -50,13 +52,11 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(profileBloc.add(ProfileInitializeEvent())).called(1);
+      expect(profileBloc.state, profileState);
     });
 
     testWidgets('Should go to the login page', (WidgetTester tester) async {
       //Arrange
-      when(profileBloc.state).thenAnswer((_) => ProfileInitial());
-
       await _pumpProfileRegisterWidget(tester, profileBloc);
 
       //Act
@@ -65,7 +65,7 @@ void main() {
       await tester.pumpAndSettle();
 
       //Assert
-      verify(profileBloc.add(ProfileLoginEvent())).called(1);
+      expect(profileBloc.state, profileState);
     });
   });
 }

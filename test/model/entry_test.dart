@@ -18,7 +18,7 @@ void main() {
     test('initialized values matches', () {
       //Arrange
       final id = 1;
-      final definitions = List<Definition>();
+      final definitions = List<Definition>.empty(growable: true);
       definitions.add(Definition(
           language: 'language',
           term: 'term',
@@ -44,18 +44,18 @@ void main() {
 
       //Assert
       expect(entry.id, 1);
-      expect(entry.definitions.length, 2);
-      expect(entry.definitions[0].language, 'language1');
-      expect(entry.definitions[0].term, 'term1');
-      expect(entry.definitions[0].meanings, ['meaning1']);
-      expect(entry.definitions[0].examples.length, 1);
-      expect(entry.definitions[0].examples[0], 'example1');
-      expect(entry.definitions[1].language, 'language2');
-      expect(entry.definitions[1].term, 'term2');
-      expect(entry.definitions[1].meanings, ['meaning2']);
-      expect(entry.definitions[1].examples.length, 2);
-      expect(entry.definitions[1].examples[0], 'example2');
-      expect(entry.definitions[1].examples[1], 'example3');
+      expect(entry.definitions!.length, 2);
+      expect(entry.definitions![0].language, 'language1');
+      expect(entry.definitions![0].term, 'term1');
+      expect(entry.definitions![0].meanings, ['meaning1']);
+      expect(entry.definitions![0].examples!.length, 1);
+      expect(entry.definitions![0].examples![0], 'example1');
+      expect(entry.definitions![1].language, 'language2');
+      expect(entry.definitions![1].term, 'term2');
+      expect(entry.definitions![1].meanings, ['meaning2']);
+      expect(entry.definitions![1].examples!.length, 2);
+      expect(entry.definitions![1].examples![0], 'example2');
+      expect(entry.definitions![1].examples![1], 'example3');
     });
   });
 }
